@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% block title meeting.title%}
+{% block body %}
+    <div class="jumbotron">
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-8">
+                    <!--information-->
+                </div>
+                <div class="col-md-4">
+                    <h1>{{ meeting.title }}</h1>
+                    <p>Lancé le {{ meeting.formatedCreatedAt }}</p>
+                    <a href="#" class="btn btn-primary">Contactez le créateur</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-4">
+        <p>
+            {{ meeting.description }}
+        </p>
+        <p>liste des dates disponibles</p>
+    </div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% block title 'Reunion' %}
+{% block body %}
+    <div class="container">
+        <h1>Reunions</h1>
+        <div class="row flex">
+            {% for meeting in meetings %}
+                <div class="col-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{{ path('meeting.show', {id: meeting.id, slug: meeting.slug}) }}">{{ meeting.title }}</a>
+                            </h5>
+                            <p class="card-text">{{ meeting.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
