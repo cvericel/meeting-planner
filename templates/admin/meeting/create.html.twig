@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Editez une reunion'%}
+
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Editez la reunion</h1>
+        {{ include ('admin/meeting/__form.html.twig', {form: form}) }}
+    </div>
+{% endblock %}
+
+
+

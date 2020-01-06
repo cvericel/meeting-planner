@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit MeetingDate{% endblock %}
+
+{% block body %}
+    <h1>Edit MeetingDate</h1>
+
+    {{ include('meeting_date/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('meeting_date_index') }}">back to list</a>
+
+    {{ include('meeting_date/_delete_form.html.twig') }}
+{% endblock %}
