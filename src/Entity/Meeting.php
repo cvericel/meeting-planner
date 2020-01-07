@@ -2,8 +2,13 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MeetingRepository")
@@ -19,27 +24,44 @@ class Meeting
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="10", max="255")
      */
     private $title;
 
     /**
      * @ORM\Column(type="text",  nullable=true)
+     * @Assert\Length(min="60", max="400")
      */
     private $description;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $id_user;
 
     /**
      * @ORM\Column(type="datetime")
      */
     private $created_at;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\MeetingDate", mappedBy="meeting")
+     */
+    private $dates;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="meetings")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Guest", mappedBy="meeting", orphanRemoval=true)
+     */
+    private $guests;
+
+
     public function __construct()
     {
         $this->created_at = new \DateTime();
+        $this->id_user = 1;
+        $this->dates = new ArrayCollection();
+        $this->guests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -76,18 +98,6 @@ class Meeting
         return $this;
     }
 
-    public function getIdUser(): ?int
-    {
-        return $this->id_user;
-    }
-
-    public function setIdUser(int $id_user): self
-    {
-        $this->id_user = $id_user;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->created_at;
@@ -103,5 +113,83 @@ class Meeting
     public function formatedCreatedAt () : string
     {
         return $this->getCreatedAt()->format('H:m:s d-m-Y');
+    }
+
+    /**
+     * @return Collection|MeetingDate[]
+     */
+    public function getDates(): Collection
+    {
+        return $this->dates;
+    }
+
+    public function addDate(MeetingDate $date): self
+    {
+        if (!$this->dates->contains($date)) {
+            $this->dates[] = $date;
+            $date->setMeeting($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDate(MeetingDate $date): self
+    {
+        if ($this->dates->contains($date)) {
+            $this->dates->removeElement($date);
+            // set the owning side to null (unless already changed)
+            if ($date->getMeeting() === $this) {
+                $date->setMeeting(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User|null $user
+     * @return $this
+     */
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Guest[]
+     */
+    public function getGuests(): Collection
+    {
+        return $this->guests;
+    }
+
+    public function addGuest(Guest $guest): self
+    {
+        if (!$this->guests->contains($guest)) {
+            $this->guests[] = $guest;
+            $guest->setMeeting($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGuest(Guest $guest): self
+    {
+        if ($this->guests->contains($guest)) {
+            $this->guests->removeElement($guest);
+            // set the owning side to null (unless already changed)
+            if ($guest->getMeeting() === $this) {
+                $guest->setMeeting(null);
+            }
+        }
+
+        return $this;
     }
 }

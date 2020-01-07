@@ -4,9 +4,14 @@
 namespace App\Controller;
 
 use App\Entity\Meeting;
+use App\Entity\MeetingSearch;
+use App\Entity\User;
+use App\Form\MeetingSearchType;
 use App\Repository\MeetingRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -35,9 +40,7 @@ class MeetingController extends AbstractController
     public function index () : Response
     {
         $meeting = $this->repository->findAllById(1);
-        $meeting[0]->setTitle("via l'objet manager");
-        $this->entityManager->flush();
-        dump($meeting);
+
         return $this->render('meeting/index.html.twig', [
             'meetings' => $meeting,
             'current_menu' => 'meeting'
@@ -46,22 +49,33 @@ class MeetingController extends AbstractController
 
     /**
      * @Route("/reunion/{slug}-{id}", name="meeting.show", requirements={"slug": "[a-z0-9-]*"})
+     * @param UserRepository $userRepository
      * @param Meeting $meeting
+     * @param Request $request
      * @param $slug
      * @return Response
      */
-    public function show (Meeting $meeting, $slug) : Response
+    public function show (UserRepository $userRepository, Meeting $meeting, Request $request, $slug) : Response
     {
+        $search = new MeetingSearch();
+        $form = $this->createForm(MeetingSearchType::class, $search);
+        $form->handleRequest($request);
         $meetingSlug = $meeting->getSlug();
+
         if ($meetingSlug !== $slug) {
             return $this->redirectToRoute('meeting.show', [
                 'id' => $meeting->getId(),
                 'slug' => $meetingSlug
             ], 301);
         }
+
+        $users = $userRepository->findAllUserQuery($search);
+
         return $this->render('meeting/show.html.twig', [
             'meeting' => $meeting,
-            'current_menu' => 'meeting'
+            'users' => $users,
+            'current_menu' => 'meeting',
+            'form' => $form->createView()
         ]);
     }
 }

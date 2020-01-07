@@ -1,10 +1,98 @@
 {% extends 'base.html.twig' %}
 
+{% block title 'Editez une reunion'%}
+
+
 {% block body %}
+    <div class="container mt-4">
+        <h1>Editez la reunion</h1>
+        <div class="jumbotron row">
+            <div class="col-6">
+                <h2>Ajoutez des dates:</h2>
+                    <div class="container js-meeting-date-table">
+                        <h2>
+                            Dates de reunion
+                            <a href="#" class="btn btn-md btn-success pull-right">
+                                <span class="fa fa-plus"></span> Add
+                            </a>
+                        </h2>
+                        <div class="row js-new-meeting-date-form-wrapper">
+                            {{ include('admin/meeting_date/__form.html.twig') }}
+                        </div>
+                        <div class="row">
+                            <table class="table table-stripped">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th colspan="4" class="text-right">Nombre de date: <span class="js-number-of-meeting">{{ meeting_date_list|length }}</span></th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col">Start at</th>
+                                        <th scope="col">End at</th>
+                                        <th scope="col">&nbsp;</th>
+                                    </tr>
 
+                                </thead>
+                                <tbody id="date_table">
+                                    {% for dates in meeting_date_list %}
+                                        {{ include('admin/meeting/__meetingRow.html.twig') }}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+            </div>
+            <div class="col-6">
+                {{ form_start(form) }}
+                    <div class="container">
+                        {{ form_row(form.title) }}
+                    </div>
+                    {{ form_row(form.description) }}
+                {{ form_widget(form) }}
+                <button class="btn btn-primary"> {{ button|default('Enregistrer') }} </button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-6">
+
+            </div>
+            <div class="col-6">
+                <h3>Invitez de nouvelle personne</h3>
+                {{ form_start(invitation_form) }}
+                    <div class="row">
+                        <div class="col-12">
+                            {{ form_row(invitation_form.email) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            {{ form_row(invitation_form.firstname) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_row(invitation_form.lastname) }}
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-primary">Envoyer</button>
+                        </div>
+                    </div>
+                {{ form_end(invitation_form) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
-{% block title %}
-
+{% block javascripts %}
+    <script src="{{ asset('js/MeetingDate.js') }}"></script>
+    <script type="text/javascript">
+        $(function() {
+            let $wrapper = $('.js-meeting-date-table');
+            let meetingDate = new MeetingDate($wrapper);
+        });
+    </script>
 {% endblock %}
+
+
 

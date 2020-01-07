@@ -1,3 +1,12 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+logout:
+  path: /logout
+
+ajax_route:
+  path:     /ajax_meeting_invitation_request
+  defaults:
+    _controller: AppBundle:Default:ajax
+  methods: [post]

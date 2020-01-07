@@ -1,0 +1,9 @@
+<tr>
+    <td>{{ dates.startAt|date('Y-m-d H:i:s') }}</td>
+    <td>{{ dates.endAt|date('Y-m-d H:i:s') }}</td>
+    <td><a href="#"
+           class="text-danger js-delete-meeting-date"
+           data-url="{{ path('admin.meeting_date.delete', {id_meeting: meeting.id, id: dates.id}) }}"
+        >
+            <span class="fa fa-trash"></span></a></td>
+</tr>

@@ -1,0 +1,8 @@
+{{ form_start(date_form, {
+    'attr': {
+        'class': 'form-inline js-new-meeting-date-form test-ajax'
+    }
+}) }}
+                                {{ form_widget(date_form) }}
+<button class="btn btn-primary"> {{ button|default('Enregistrer') }} </button>
+{{ form_end(date_form) }}

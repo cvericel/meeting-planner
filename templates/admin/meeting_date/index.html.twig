@@ -1,37 +1,40 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}MeetingDate index{% endblock %}
-
+{% block title 'admin'%}
 {% block body %}
-    <h1>MeetingDate index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Start_at</th>
-                <th>End_at</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for meeting_date in meeting_dates %}
-            <tr>
-                <td>{{ meeting_date.id }}</td>
-                <td>{{ meeting_date.startAt ? meeting_date.startAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ meeting_date.endAt ? meeting_date.endAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('meeting_date_show', {'id': meeting_date.id}) }}">show</a>
-                    <a href="{{ path('meeting_date_edit', {'id': meeting_date.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
+    <div class="container">
+        <h1>Gerer les dates</h1>
+        {%  for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('meeting_date_new') }}">Create new</a>
+        <table class="table table-stripped">
+            <thead>
+            <tr>
+                <th>Debut</th>
+                <th>Fin</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for meeting_date in meeting_dates %}
+                <tr>
+                    <td>{{ meeting_date.startAt }}</td>
+                    <td>{{ meeting_date.endAt }}</td>
+                    <td>
+                        <a href="{{ path('admin.meeting.edit', {id: meeting_date.id}) }}" class="btn btn-secondary">Editez</a>
+                        <form method="post" action="{{ path('admin.meeting_date.delete', {id: meeting_date.id}) }}" style="display: inline-block" onsubmit="return confirm('Etes-vous sure de vouloir supprimer cette reunion ?')">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ meeting_date.id)  }}">
+                            <button class="btn btn-danger">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-right">
+            <a href="{{ path('admin.meeting_date.new') }}" class="btn btn-primary">Créer une nouvelle date</a>
+        </div>
+    </div>
 {% endblock %}
