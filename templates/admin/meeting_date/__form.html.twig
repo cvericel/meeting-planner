@@ -1,8 +1,49 @@
-{{ form_start(date_form, {
-    'attr': {
-        'class': 'form-inline js-new-meeting-date-form test-ajax'
-    }
-}) }}
-                                {{ form_widget(date_form) }}
-<button class="btn btn-primary"> {{ button|default('Enregistrer') }} </button>
-{{ form_end(date_form) }}
+<div id="dataModal" class="modal fade js-modal-meeting-date-form">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="swal2-header">
+                <h4 class="modal-title" id="modalLabel">
+                    Add meeting date
+                </h4>
+            </div>
+            <div class="modal-body">
+                {{ form_start(date_form, {
+                    'attr': {
+                        'class': 'form-inline js-new-meeting-date-form'
+                    }
+                })
+                }}
+                <div class="form-group">
+                        {{ form_widget(date_form.start_at,
+                            {
+                                'attr': {
+                                    'class': 'js-datetime-picker'
+                                }
+                            })
+                        }}
+                        <span class="input-group-addon ">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                </div>
+                    <li class="list-inline-item">
+                        {{ form_widget(date_form.end_at, {
+                            'attr': {
+                                'class': 'js-datetime-picker'
+                            }
+                        }) }}
+                        <span class="input-group-addon">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                    </li>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button class="btn btn-primary"> {{ button|default('Enregistrer') }} </button>
+                {{ form_end(date_form) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

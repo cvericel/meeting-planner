@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,6 +33,11 @@ class MeetingDate
      * @ORM\JoinColumn(nullable=false)
      */
     private $meeting;
+
+    public function __construct()
+    {
+        $this->user_id = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {

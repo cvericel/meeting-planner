@@ -4,7 +4,6 @@
 namespace App\Controller\Admin;
 
 
-use App\Entity\Invitation;
 use App\Entity\Meeting;
 use App\Entity\MeetingDate;
 use App\Form\InvitationType;
@@ -46,7 +45,10 @@ class AdminMeetingController extends AbstractController
     public function index(): Response
     {
         $meetings = $this->repository->findAll();
-        return $this->render('admin/meeting/index.html.twig', compact('meetings'));
+        return $this->render('admin/meeting/index.html.twig', [
+            'meetings' => $meetings,
+            'current_menu' => 'admin'
+        ]);
     }
 
     /**
@@ -86,12 +88,6 @@ class AdminMeetingController extends AbstractController
      */
     public function edit(Meeting $meeting, Request $request, UserRepository $userRepository, MeetingDateRepository $meetingDateRepository): Response
     {
-        //Invitation form
-        $invitation = new Invitation();
-        $invitation->setMeeting($meeting);
-        $invitation_form = $this->createForm(InvitationType::class, $invitation);
-        $invitation_form->handleRequest($request);
-
         //Meeting edit form
         $form = $this->createForm(MeetingType::class, $meeting);
         $form->handleRequest($request);
@@ -115,16 +111,6 @@ class AdminMeetingController extends AbstractController
             $this->addFlash('success', 'Date ajouté');
         }
 
-
-        if ($invitation_form->isSubmitted() && $invitation_form->isValid()) {
-            $user = $userRepository->findOneByEmail($invitation->getEmail());
-            if ($user) {
-                // do some stuff
-            }
-            $this->addFlash('success', 'Email envoyé');
-            return $this->redirectToRoute('admin.meeting.edit');
-        }
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->flush();
             $this->addFlash('success', 'Bien modifié avec succès');
@@ -137,8 +123,7 @@ class AdminMeetingController extends AbstractController
             'meeting' => $meeting,
             'meeting_date_list' => $meeting_date_list,
             'form' => $form->createView(),
-            'date_form' => $date_form->createView(),
-            'invitation_form' => $invitation_form->createView()
+            'date_form' => $date_form->createView()
         ]);
     }
 

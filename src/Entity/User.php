@@ -51,11 +51,6 @@ class User implements UserInterface, \Serializable
     private $meetings;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Guest", mappedBy="user", orphanRemoval=true)
-     */
-    private $guests;
-
-    /**
      * @var string|null
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -77,11 +72,18 @@ class User implements UserInterface, \Serializable
 
     private $plainPassword;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\MeetingGuest", mappedBy="user", orphanRemoval=true)
+     */
+    private $meetingGuests;
+
     public function __construct()
     {
         $this->meetings = new ArrayCollection();
         $this->guests = new ArrayCollection();
         $this->updated_at = new DateTime();
+        $this->events = new ArrayCollection();
+        $this->meetingGuests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -216,38 +218,7 @@ class User implements UserInterface, \Serializable
 
         return $this;
     }
-
-    /**
-     * @return Collection|Guest[]
-     */
-    public function getGuests(): Collection
-    {
-        return $this->guests;
-    }
-
-    public function addGuest(Guest $guest): self
-    {
-        if (!$this->guests->contains($guest)) {
-            $this->guests[] = $guest;
-            $guest->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeGuest(Guest $guest): self
-    {
-        if ($this->guests->contains($guest)) {
-            $this->guests->removeElement($guest);
-            // set the owning side to null (unless already changed)
-            if ($guest->getUser() === $this) {
-                $guest->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
+    
     /**
      * @return File|null
      */
@@ -299,6 +270,37 @@ class User implements UserInterface, \Serializable
     public function setUpdatedAt(\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MeetingGuest[]
+     */
+    public function getMeetingGuests(): Collection
+    {
+        return $this->meetingGuests;
+    }
+
+    public function addMeetingGuest(MeetingGuest $meetingGuest): self
+    {
+        if (!$this->meetingGuests->contains($meetingGuest)) {
+            $this->meetingGuests[] = $meetingGuest;
+            $meetingGuest->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMeetingGuest(MeetingGuest $meetingGuest): self
+    {
+        if ($this->meetingGuests->contains($meetingGuest)) {
+            $this->meetingGuests->removeElement($meetingGuest);
+            // set the owning side to null (unless already changed)
+            if ($meetingGuest->getUser() === $this) {
+                $meetingGuest->setUser(null);
+            }
+        }
 
         return $this;
     }

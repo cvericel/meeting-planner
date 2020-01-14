@@ -55,6 +55,11 @@ class Meeting
      */
     private $guests;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\MeetingGuest", mappedBy="meeting", orphanRemoval=true)
+     */
+    private $meetingGuests;
+
 
     public function __construct()
     {
@@ -62,6 +67,7 @@ class Meeting
         $this->id_user = 1;
         $this->dates = new ArrayCollection();
         $this->guests = new ArrayCollection();
+        $this->meetingGuests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -187,6 +193,37 @@ class Meeting
             // set the owning side to null (unless already changed)
             if ($guest->getMeeting() === $this) {
                 $guest->setMeeting(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MeetingGuest[]
+     */
+    public function getMeetingGuests(): Collection
+    {
+        return $this->meetingGuests;
+    }
+
+    public function addMeetingGuest(MeetingGuest $meetingGuest): self
+    {
+        if (!$this->meetingGuests->contains($meetingGuest)) {
+            $this->meetingGuests[] = $meetingGuest;
+            $meetingGuest->setMeeting($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMeetingGuest(MeetingGuest $meetingGuest): self
+    {
+        if ($this->meetingGuests->contains($meetingGuest)) {
+            $this->meetingGuests->removeElement($meetingGuest);
+            // set the owning side to null (unless already changed)
+            if ($meetingGuest->getMeeting() === $this) {
+                $meetingGuest->setMeeting(null);
             }
         }
 

@@ -23,15 +23,19 @@ class Guest
     private $meeting;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="guests")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
-    private $user;
+    private $email;
 
     /**
      * @ORM\Column(type="datetime")
      */
     private $created_at;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $valid;
 
     public function getId(): ?int
     {
@@ -50,14 +54,14 @@ class Guest
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getEmail(): ?string
     {
-        return $this->user;
+        return $this->email;
     }
 
-    public function setUser(?User $user): self
+    public function setEmail(string $email): self
     {
-        $this->user = $user;
+        $this->email = $email;
 
         return $this;
     }
@@ -70,6 +74,18 @@ class Guest
     public function setCreatedAt(\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getValid(): ?bool
+    {
+        return $this->valid;
+    }
+
+    public function setValid(bool $valid): self
+    {
+        $this->valid = $valid;
 
         return $this;
     }

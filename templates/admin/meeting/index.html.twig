@@ -2,7 +2,7 @@
 {% block title 'admin'%}
 {% block body %}
     <div class="container">
-        <h1 class="{{ meeting.id }}">Gerer les reunions</h1>
+        <h1>Gerer les reunions</h1>
         {%  for message in app.flashes('success') %}
             <div class="alert alert-success">
                 {{ message }}
