@@ -18,7 +18,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register", name="user.register")
      * @param Request $request
-     * @param UserPasswordEncoderInterface $encoder
+     * @param UserPasswordEncoderInterface $userPasswordEncoder
      * @param EntityManagerInterface $entityManager
      * @return Response
      */
@@ -37,7 +37,8 @@ class RegistrationController extends AbstractController
         }
 
         return $this->render('user/register.html.twig', [
-            'registration_form' => $form->createView()
+            'registration_form' => $form->createView(),
+            'current_menu' => 'login'
         ]);
     }
 }

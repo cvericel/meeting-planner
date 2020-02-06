@@ -6,6 +6,7 @@ use App\Entity\MeetingSearch;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\NonUniqueResultException;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -23,13 +24,15 @@ class UserRepository extends ServiceEntityRepository
 
     public function findOneByEmail (string $email)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.email = :searchEmail')
-            ->setParameter('searchEmail', $email)
-            ->getQuery()
-            ->getResult();
+        try {
+            return $this->createQueryBuilder('p')
+                ->andWhere('p.email = :searchEmail')
+                ->setParameter('searchEmail', $email)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
-
 
     public function findAllUserQuery (MeetingSearch $meetingSearch)
     {

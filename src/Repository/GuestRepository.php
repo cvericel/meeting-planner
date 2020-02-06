@@ -2,10 +2,9 @@
 
 namespace App\Repository;
 
-use App\Entity\Guest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-
+use App\Entity\Guest;
 /**
  * @method Guest|null find($id, $lockMode = null, $lockVersion = null)
  * @method Guest|null findOneBy(array $criteria, array $orderBy = null)
@@ -18,7 +17,6 @@ class GuestRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Guest::class);
     }
-
     // /**
     //  * @return Guest[] Returns an array of Guest objects
     //  */

@@ -10,7 +10,7 @@
     <div class="container mt-4">
         <h1>Editez la reunion</h1>
         <div class="jumbotron row">
-            <div class="col-6">
+            <div class="col-12 col-md-6">
                 <div class="container js-meeting-date-table">
                     <h2>
                         Dates de reunion
@@ -24,7 +24,11 @@
                         <table class="table table-stripped">
                             <thead class="thead-light">
                                 <tr>
-                                    <th colspan="4" class="text-right">Nombre de date: <span class="js-number-of-meeting">{{ meeting_date_list|length }}</span></th>
+                                    <th colspan="4" class="text-right">Nombre de date:
+                                        <span class="js-number-of-meeting">
+                                            {{ meeting_date_list|length }}
+                                        </span>
+                                    </th>
                                 </tr>
                                 <tr>
                                     <th scope="col">Start at</th>
@@ -41,41 +45,63 @@
                     </div>
                 </div>
              </div>
-            <div class="col-6">
-                {{ form_start(form) }}
-                    <div class="container">
-                        {{ form_row(form.title) }}
+            <div class="col-md-6 col-12 js-meeting-guest">
+                <form action="{{ path('admin.meeting_guest.add', {id_meeting: meeting.id}) }}" method="post" class="js-add-meeting-guest">
+                    <div class="input-group mb-3 js-add-people-text">
+                        <input type="text"
+                               name="q"
+                               class="form-control"
+                               placeholder="Invitez d'autre personne..."
+                        >
+                        <div class="input-group-append">
+                            <button type="submit"
+                                    class="btn btn-success">
+                                <span class="fa fa-plus"></span>
+                            </button>
+                        </div>
                     </div>
-                    {{ form_row(form.description) }}
-                {{ form_widget(form) }}
-                <button class="btn btn-primary"> {{ button|default('Enregistrer') }} </button>
-                {{ form_end(form) }}
+                </form>
+                <table class="table table-stripped">
+                    <thead class="thead-light">
+                    <tr>
+                        <th colspan="4" class="text-right">Number of guest:
+                            <span class="js-number-of-meeting">
+                                            {{ meeting_date_list|length }}
+                                        </span>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th scope="col">Email</th>
+                        <th scope="col">Invited at</th>
+                        <th scope="col">&nbsp;</th>
+                    </tr>
+                    </thead>
+                    <tbody id="date_table" class="js-tbody-delete-meeting-guest">
+                        {% for guest in meeting_date_guest_list %}
+                            {{ include('admin/meeting/__guestRow.html.twig') }}
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-6">
-            </div>
-            <div class="col-6">
-                <h3>Invitez de nouvelle personne</h3>
-
-            </div>
-        </div>
-    </div>
+    
 {% endblock %}
 
 {% block javascripts %}
     <script src="{{ asset('js/MeetingDate.js') }}"></script>
     <script src="{{ asset('js/jquery.datetimepicker.full.min.js') }}"></script>
+    <script src="{{ asset('js/MeetingGuest.js') }}"></script>
     <script type="text/javascript">
         $(function () {
-            let $wrapper = $('.js-meeting-date-table');
-            let $datetimepicker = $('.js-datetime-picker');
-            let meetingDate = new MeetingDate($wrapper, $datetimepicker);
+            let $meetingDateWrapper = $('.js-meeting-date-table');
+            let $dateTimePicker = $('.js-datetime-picker');
+            new MeetingDate($meetingDateWrapper, $dateTimePicker);
+
+            let $meetingGuestWrapper = $('.js-meeting-guest');
+            new MeetingGuest($meetingGuestWrapper);
         });
     </script>
-
 {% endblock %}
 
 

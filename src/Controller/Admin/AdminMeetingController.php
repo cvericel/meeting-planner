@@ -9,7 +9,9 @@ use App\Entity\MeetingDate;
 use App\Form\InvitationType;
 use App\Form\MeetingDateType;
 use App\Form\MeetingType;
+use App\Repository\GuestRepository;
 use App\Repository\MeetingDateRepository;
+use App\Repository\MeetingGuestRepository;
 use App\Repository\MeetingRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -86,7 +88,8 @@ class AdminMeetingController extends AbstractController
      * @param MeetingDateRepository $meetingDateRepository
      * @return Response
      */
-    public function edit(Meeting $meeting, Request $request, UserRepository $userRepository, MeetingDateRepository $meetingDateRepository): Response
+    public function edit(Meeting $meeting, Request $request, UserRepository $userRepository, MeetingDateRepository $meetingDateRepository, MeetingGuestRepository $meetingGuestRepository): Response
+
     {
         //Meeting edit form
         $form = $this->createForm(MeetingType::class, $meeting);
@@ -118,12 +121,15 @@ class AdminMeetingController extends AbstractController
         }
 
         $meeting_date_list = $meetingDateRepository->findAllById($meeting->getId());
+        $meeting_date_guest_list = $meetingGuestRepository->findAllInMeeting($meeting->getId());
 
         return $this->render('admin/meeting/edit.html.twig', [
             'meeting' => $meeting,
             'meeting_date_list' => $meeting_date_list,
+            'meeting_date_guest_list' => $meeting_date_guest_list,
             'form' => $form->createView(),
-            'date_form' => $date_form->createView()
+            'date_form' => $date_form->createView(),
+            'current_menu' => 'admin'
         ]);
     }
 

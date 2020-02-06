@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -37,6 +38,12 @@ class MeetingGuest
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    public function __construct()
+    {
+        $this->invited_at = new DateTime();
+        $this->valid = false;
+    }
 
     public function getId(): ?int
     {
@@ -84,6 +91,10 @@ class MeetingGuest
         return $this->user;
     }
 
+    /**
+     * @param User $user
+     * @return $this
+     */
     public function setUser(?User $user): self
     {
         $this->user = $user;

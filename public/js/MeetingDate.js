@@ -1,8 +1,9 @@
 (function (window, $, swal) {
-    window.MeetingDate = function ($wrapper, $datetimepicker) {
+    window.MeetingDate = function ($wrapper, $datetimepicker, $userForm) {
         this.$wrapper = $wrapper;
         this.$datetimepicker = $datetimepicker;
         this.helper = new Helper(this.$wrapper);
+        this.$userForm = $userForm;
 
         //Delete meeting date event listener
         this.$wrapper.on(

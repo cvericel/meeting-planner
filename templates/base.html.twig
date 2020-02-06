@@ -36,7 +36,7 @@
                         <div class="row align-items-center">
                             <div class="col-2">
                                 <h2 class="mb-0 site-logo">
-                                    <a href="{{ path('meeting.index') }}">Mee/ting</a>
+                                    <a href="{{ path('home') }}">Mee/ting</a>
                                 </h2>
                             </div>
                             <div class="col-10">
@@ -48,34 +48,43 @@
                                             </a>
                                         </div>
                                         <ul class="site-menu js-clone-nav d-none d-lg-block">
-                                            <li class="{% if current_menu is defined and current_menu == 'meeting' %}active{% endif %}">
-                                                <a href="">Home</a>
+                                            <li class="{% if current_menu is defined and current_menu == 'home' %}active underline{% else %}item-menu{% endif %}">
+                                                <a href="{{ path('home') }}">Home</a>
                                             </li>
-                                            <li><a href="">Sermons</a></li>
+                                            <li class="{% if current_menu is defined and current_menu == '???' %}active underline{% else %}item-menu{% endif %}">
+                                                <a href="">Coming</a>
+                                            </li>
                                             <li class="has-children">
-                                                <a href="">Beliefs</a>
+                                                <a href="">Coming</a>
                                                 <ul class="dropdown arrow-top">
-                                                    <li><a href="">God</a></li>
-                                                    <li><a href="">Humanity</a></li>
-                                                    <li><a href="">Salvation</a></li>
+                                                    <li><a href="">Coming</a></li>
+                                                    <li><a href="">Coming</a></li>
+                                                    <li><a href="">Coming</a></li>
                                                     <li class="has-children">
-                                                        <a href="">Churches</a>
+                                                        <a href="">Coming</a>
                                                         <ul class="dropdown">
-                                                            <li><a href="">America</a></li>
-                                                            <li><a href="">Europe</a></li>
-                                                            <li><a href="">Asia</a></li>
-                                                            <li><a href="">Africa</a></li>
-
+                                                            <li><a href="">Coming</a></li>
+                                                            <li><a href="">Coming</a></li>
+                                                            <li><a href="">Coming</a></li>
+                                                            <li><a href="">Coming</a></li>
                                                         </ul>
                                                     </li>
-
                                                 </ul>
                                             </li>
-                                            <li class="item-menu"><a href="">Events</a></li>
+                                            <li class="item-menu">
+                                            <a href="">Events</a>
+                                                <span class="notification" style="padding: 0">
+                                                    {% if app.user %}
+                                                            {{ app.user.getMeetingGuests.count }}
+                                                    {% else %}
+                                                        0
+                                                    {%  endif %}
+                                                </span>
+                                            </li>
                                             <li class="{% if current_menu is defined and current_menu == 'admin' %}active underline{% else %}item-menu{% endif %}">
                                                 <a href="{{ path('admin.meeting.index') }}">My meetings</a>
                                             </li>
-                                            <li>
+                                            <li class="{% if current_menu is defined and current_menu == 'login' %}active underline{% else %}item-menu{% endif %}">
                                                 {% if app.user %}
                                                     <a href="{{ path('logout') }}">Log out</a>
                                                 {% else %}
@@ -120,8 +129,9 @@
             </div>
         </nav>
     </div>
-
+    <div class="mt-5">
         {% block body %}{% endblock %}
+    </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>

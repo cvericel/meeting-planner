@@ -1,0 +1,10 @@
+<tr>
+    <td>{{ guest.user.email() }}</td>
+    <td>{{ guest.invitedAt|date('H:i:s d-m-Y') }}</td>
+    <td><a href="#"
+
+          class="text-danger js-delete-meeting-guest"
+          data-url="{{ path('admin.meeting_guest.delete', {id_meeting: meeting.id, id: guest.id}) }}"
+    >
+        <span class="fa fa-times"></span></a></td>
+</tr>

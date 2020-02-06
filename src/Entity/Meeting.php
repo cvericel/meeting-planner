@@ -64,7 +64,6 @@ class Meeting
     public function __construct()
     {
         $this->created_at = new \DateTime();
-        $this->id_user = 1;
         $this->dates = new ArrayCollection();
         $this->guests = new ArrayCollection();
         $this->meetingGuests = new ArrayCollection();
