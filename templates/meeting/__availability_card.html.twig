@@ -1,0 +1,13 @@
+{% if availability is defined %}
+    {% if availability.choice == true %}
+        <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('admin.meeting_date.choice.refuse', {id_meeting: meeting.id, id: date.id}) }}">Not disposable</a>
+    {% else %}
+        <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('admin.meeting_date.choice.valid', {id_meeting: meeting.id, id: date.id}) }}">Disposable</a>
+    {% endif %}
+    <a href="#" class="btn btn-danger js-meeting-date-choice-cancel" data-url="{{ path('admin.availability.cancel', {id: availability.id}) }}">
+        <span class="fa fa-times"> </span>
+    </a>
+{% else %}
+    <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('admin.meeting_date.choice.valid', {id_meeting: meeting.id, id: date.id}) }}">Disposable</a>
+    <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('admin.meeting_date.choice.refuse', {id_meeting: meeting.id, id: date.id}) }}">Not disposable</a>
+{% endif %}

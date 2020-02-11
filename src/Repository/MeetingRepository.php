@@ -26,7 +26,7 @@ class MeetingRepository extends ServiceEntityRepository
     public function findAllById($id_user) : array
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.id_user = :id_user')
+            ->andWhere('p.user = :id_user')
             ->setParameter('id_user', $id_user)
             ->getQuery()
             ->getResult();

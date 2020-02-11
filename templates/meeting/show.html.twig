@@ -1,48 +1,54 @@
 {% extends 'base.html.twig' %}
 {% block title meeting.title%}
 {% block body %}
-    <div class="jumbotron">
-        <div class="container mt-4">
-            <div class="row">
-                <div class="col-md-8">
-                    <!--information-->
-                </div>
-                <div class="col-md-4">
-                    <h1>{{ meeting.title }}</h1>
-                    <p>Lancé le {{ meeting.formatedCreatedAt }}</p>
-                    <a href="#" class="btn btn-primary">Contactez le créateur</a>
+    <div class="container" style="margin-top: 4cm">
+        <div class="row">
+            <div class="offset-1 col-10 offset-sm-1 col-sm-10 col-md-10 offset-md-1 col-lg-10 offset-lg-1 col-xl-8 offset-xl-0">
+                <div class="jumbotron p-3 p-md-5">
+                        <h1 class="display-4">{{ meeting.title }}</h1>
+                        <p class="lead my-3">{{ meeting.description }}</p>
+                        <p class="lead mb-0">Launch the {{ meeting.createdAt|date('F j, Y \\a\\t g:i a') }}</p>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="container mt-4">
-        {{ form_start(form) }}
-        <div class="form-row mb-4">
-            <div class="col">
-                {{ form_widget(form.email) }}
-            </div>
-            <div class="col">
-                <button class="btn btn-primary">Recherchez</button>
+            <div class="offset-1 col-10 offset-sm-1 col-sm-10 col-md-10 offset-md-1 col-lg-10 offset-lg-1 col-xl-4 offset-xl-0">
+                <div class="jumbotron p-1 p-md-5">
+                    <div class="col-md-6 px-0">
+                        <h2>About me</h2>
+                        <p>profile pic etc</p>
+                        <p>Description</p>
+                    </div>
+                </div>
             </div>
         </div>
-        {{ form_end(form) }}
-        <div class="col-4">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Username</th>
-                        <th scope="col">Email</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for user in users %}
-                        <tr>
-                            <td>{{ user.username }}</td>
-                            <td>{{ user.email }}</td>
-                        </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+        <div class="owl-carousel" id="js-meeting-date-choice-wrapper">
+            {% for date in meetingDate %}
+                <div class="item">
+                    {{ include('meeting/__meeting_date_card.html.twig') }}
+                </div>
+            {% endfor %}
         </div>
     </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $('.owl-carousel').owlCarousel({
+            center: true,
+            items:2,
+            loop:false,
+            margin:10,
+            autoHeight: true,
+            responsive:{
+                600:{
+                    items:2
+                }
+            }
+        })
+    </script>
+    <script src="{{ asset('js/Availability.js') }}"></script>
+    <script type="text/javascript">
+        $meetingDateWrapper = $('#js-meeting-date-choice-wrapper');
+        new Availability($meetingDateWrapper);
+    </script>
 {% endblock %}

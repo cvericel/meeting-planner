@@ -1,0 +1,76 @@
+.box {
+    width: 100%;
+    justify-content: flex-start;
+    display: flex;
+    flex-flow: row wrap;
+}
+.product {
+    box-shadow: 1px 5px 15px #ccc;
+    width: 15em;
+    height: auto;
+    border-radius: 3px;
+    padding: 2em;
+    margin: 1em;
+    overflow: hidden;
+    position: relative;
+    flex: auto;
+}
+.product--blue {
+    background: linear-gradient(-45deg, #92dce5 50%, rgba(255, 255, 255, 0.5) 50%);
+}
+.product--orange {
+    background: linear-gradient(-45deg, #ef6f6c 50%, rgba(255, 255, 255, 0.5) 50%);
+}
+.product--red {
+    background: linear-gradient(-45deg, #e84855 50%, rgba(255, 255, 255, 0.5) 50%);
+}
+.product--green {
+    background: linear-gradient(-45deg, #70c1b3 50%, rgba(255, 255, 255, 0.5) 50%);
+}
+.product--yellow {
+    background: linear-gradient(-45deg, #e8db7d 50%, rgba(255, 255, 255, 0.5) 50%);
+}
+.product--pink {
+    background: linear-gradient(-45deg, #ff386d 50%, rgba(255, 255, 255, 0.5) 50%);
+}
+.product img, .product--blue img, .product--orange img, .product--red img, .product--green img, .product--yellow img, .product--pink img {
+    max-width: 100%;
+    height: auto !important;
+    text-align: center;
+}
+.product_inner {
+    display: flex;
+    align-items: center;
+    flex-flow: column wrap;
+}
+.product_inner p {
+    color: black;
+    text-align: center;
+}
+.product_inner h2 {
+    text-align: center;
+}
+.product_inner button {
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: #fff;
+    border-radius: 3px;
+    padding: 1em 3em;
+    margin: 1em 0 0 0;
+    background: none;
+    cursor: pointer;
+    transition: background ease-in 0.25s;
+}
+.product_inner button:hover {
+    background: rgba(255, 255, 255, 1);
+    color: #2b2d42;
+}
+.product_inner button:before {
+    content: '\f07A';
+    color: #fff;
+    position: absolute;
+    font-size: 1.5em;
+    margin: 0 -1.5em;
+}
+.product_inner button:hover:before {
+    color: #2b2d42;
+}

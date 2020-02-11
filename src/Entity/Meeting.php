@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -49,11 +48,6 @@ class Meeting
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Guest", mappedBy="meeting", orphanRemoval=true)
-     */
-    private $guests;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\MeetingGuest", mappedBy="meeting", orphanRemoval=true)
@@ -173,29 +167,6 @@ class Meeting
     public function getGuests(): Collection
     {
         return $this->guests;
-    }
-
-    public function addGuest(Guest $guest): self
-    {
-        if (!$this->guests->contains($guest)) {
-            $this->guests[] = $guest;
-            $guest->setMeeting($this);
-        }
-
-        return $this;
-    }
-
-    public function removeGuest(Guest $guest): self
-    {
-        if ($this->guests->contains($guest)) {
-            $this->guests->removeElement($guest);
-            // set the owning side to null (unless already changed)
-            if ($guest->getMeeting() === $this) {
-                $guest->setMeeting(null);
-            }
-        }
-
-        return $this;
     }
 
     /**

@@ -7,6 +7,9 @@ use App\Entity\Meeting;
 use App\Entity\MeetingSearch;
 use App\Entity\User;
 use App\Form\MeetingSearchType;
+use App\Repository\AvailabilityRepository;
+use App\Repository\MeetingDateRepository;
+use App\Repository\MeetingGuestRepository;
 use App\Repository\MeetingRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class MeetingController extends AbstractController
 {
@@ -50,12 +54,20 @@ class MeetingController extends AbstractController
     /**
      * @Route("/reunion/{slug}-{id}", name="meeting.show", requirements={"slug": "[a-z0-9-]*"})
      * @param UserRepository $userRepository
+     * @param MeetingDateRepository $meetingDateRepository
      * @param Meeting $meeting
      * @param Request $request
      * @param $slug
+     * @param MeetingGuestRepository $meetingGuestRepository
+     * @param AvailabilityRepository $availabilityRepository
+     * @param Security $security
      * @return Response
      */
-    public function show (UserRepository $userRepository, Meeting $meeting, Request $request, $slug) : Response
+    public function show (UserRepository $userRepository, MeetingDateRepository $meetingDateRepository,
+                          Meeting $meeting, Request $request, $slug,
+                          MeetingGuestRepository $meetingGuestRepository,
+                          AvailabilityRepository $availabilityRepository,
+                          Security $security) : Response
     {
         $search = new MeetingSearch();
         $form = $this->createForm(MeetingSearchType::class, $search);
@@ -69,13 +81,16 @@ class MeetingController extends AbstractController
             ], 301);
         }
 
-        $users = $userRepository->findAllUserQuery($search);
+        $meetingDate = $meetingDateRepository->findAllById($meeting->getId());
+        $guest = $meetingGuestRepository->findUserInMeetingGuest($meeting, $security->getUser()->getId());
+        $availability = $availabilityRepository->findAllAvailabilityInMeeting($guest->getId(), $meeting);
 
         return $this->render('meeting/show.html.twig', [
             'meeting' => $meeting,
-            'users' => $users,
+            'meetingDate' => $meetingDate,
             'current_menu' => 'meeting',
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'availability' => $availability
         ]);
     }
 }

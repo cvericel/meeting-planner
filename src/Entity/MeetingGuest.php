@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -39,10 +41,16 @@ class MeetingGuest
      */
     private $user;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Availability", mappedBy="meeting_guest", orphanRemoval=true)
+     */
+    private $availabilities;
+
     public function __construct()
     {
         $this->invited_at = new DateTime();
         $this->valid = false;
+        $this->availabilities = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -98,6 +106,37 @@ class MeetingGuest
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Availability[]
+     */
+    public function getAvailabilities(): Collection
+    {
+        return $this->availabilities;
+    }
+
+    public function addAvailability(Availability $availability): self
+    {
+        if (!$this->availabilities->contains($availability)) {
+            $this->availabilities[] = $availability;
+            $availability->setMeetingGuestId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvailability(Availability $availability): self
+    {
+        if ($this->availabilities->contains($availability)) {
+            $this->availabilities->removeElement($availability);
+            // set the owning side to null (unless already changed)
+            if ($availability->getMeetingGuestId() === $this) {
+                $availability->setMeetingGuestId(null);
+            }
+        }
 
         return $this;
     }

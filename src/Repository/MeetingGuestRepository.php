@@ -25,7 +25,7 @@ class MeetingGuestRepository extends ServiceEntityRepository
      * @param $id_meeting
      * @return array
      */
-    public function findAlreadyIn($id_user, $id_meeting) : array
+    public function findAlreadyIn ($id_user, $id_meeting) : array
     {
         return $this->createQueryBuilder('q')
             ->andWhere('q.user = :id_user')
@@ -38,10 +38,11 @@ class MeetingGuestRepository extends ServiceEntityRepository
     }
 
     /**
+     * Return all meeting guest for one meeting
      * @param $meeting_id
      * @return array
      */
-    public function findAllInMeeting($meeting_id) : array
+    public function findAllInMeeting ($meeting_id) : array
     {
         return $this->createQueryBuilder('q')
             ->andWhere('q.meeting = :id_meeting')
@@ -50,13 +51,27 @@ class MeetingGuestRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findMeetingWithUserId($user_id): array
+    public function findMeetingWithUserId ($user_id): array
     {
         return $this->createQueryBuilder('q')
             ->andWhere('q.user = :id_user')
             ->setParameter('id_user', $user_id)
             ->getQuery()
             ->getResult();
+    }
+
+    public function findUserInMeetingGuest ($id_meeting, $id_user)
+    {
+        try {
+            return $this->createQueryBuilder('q')
+                ->andWhere('q.user = :id_user')
+                ->andWhere('q.meeting = :id_meeting')
+                ->setParameter('id_meeting', $id_meeting)
+                ->setParameter('id_user', $id_user)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
 
     // /**

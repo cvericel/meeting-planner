@@ -34,9 +34,15 @@ class MeetingDate
      */
     private $meeting;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Availability", mappedBy="meeting_date", orphanRemoval=true)
+     */
+    private $availabilities;
+
     public function __construct()
     {
         $this->user_id = new ArrayCollection();
+        $this->availabilities = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -76,6 +82,37 @@ class MeetingDate
     public function setMeeting(?Meeting $meeting): self
     {
         $this->meeting = $meeting;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Availability[]
+     */
+    public function getAvailabilities(): Collection
+    {
+        return $this->availabilities;
+    }
+
+    public function addAvailability(Availability $availability): self
+    {
+        if (!$this->availabilities->contains($availability)) {
+            $this->availabilities[] = $availability;
+            $availability->setMeetingDateId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvailability(Availability $availability): self
+    {
+        if ($this->availabilities->contains($availability)) {
+            $this->availabilities->removeElement($availability);
+            // set the owning side to null (unless already changed)
+            if ($availability->getMeetingDateId() === $this) {
+                $availability->setMeetingDateId(null);
+            }
+        }
 
         return $this;
     }

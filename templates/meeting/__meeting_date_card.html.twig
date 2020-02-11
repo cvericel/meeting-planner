@@ -1,0 +1,46 @@
+<div class="card card  text-center">
+    <div class="card-header bg-info">
+        <h2 class="card-title">The {{ date.startAt|date("j F Y") }}</h2>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-4 offset-2 border-right border-danger">
+                <h5 class="card-title">Start at</h5>
+                <p>{{ date.startAt|date('H:i') }}</p>
+            </div>
+            <div class="col-4">
+                <h5 class="card-title">End at</h5>
+                <p>{{ date.endAt|date('H:i') }}</p>
+            </div>
+        </div>
+        <p class="card-text">It's a broader card with text below as a natural lead-in to extra content. This content is a little longer.</p>
+        <div class="js-availability-wrapper">
+            {% if availability is defined %}
+                {% set break = false %}
+                {% for choice in availability %}
+                    {% if choice.meetingDate.id == date.id %}
+                        {% set break = true %}
+                        {% if choice.choice == true %}
+                            <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('admin.meeting_date.choice.refuse', {id_meeting: meeting.id, id: date.id}) }}">Not disposable</a>
+                        {% else %}
+                            <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('admin.meeting_date.choice.valid', {id_meeting: meeting.id, id: date.id}) }}">Disposable</a>
+                        {% endif %}
+                        <a href="#" class="btn btn-danger js-meeting-date-choice-cancel" data-url="{{ path('admin.availability.cancel', {id: choice.id}) }}">
+                            <span class="fa fa-times"> </span>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+                {% if not break %}
+                    <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('admin.meeting_date.choice.valid', {id_meeting: meeting.id, id: date.id}) }}">Disposable</a>
+                    <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('admin.meeting_date.choice.refuse', {id_meeting: meeting.id, id: date.id}) }}">Not disposable</a>
+                {% endif %}
+            {% else %}
+                <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('admin.meeting_date.choice.valid', {id_meeting: meeting.id, id: date.id}) }}">Disposable</a>
+                <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('admin.meeting_date.choice.refuse', {id_meeting: meeting.id, id: date.id}) }}">Not disposable</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card-footer text-muted bg-transparent">
+        2 days ago
+    </div>
+</div>

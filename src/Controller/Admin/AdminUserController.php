@@ -53,9 +53,17 @@ class AdminUserController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute('admin.meeting.index');
         }
-        return $this->render('admin/user/index.html.twig', [
+        return $this->render('admin/user/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/admin/upload/test", name="upload_test")
+     */
+    public function temporaryUploadAction (Request $request)
+    {
+        dd($request->files->get('image'));
     }
 }

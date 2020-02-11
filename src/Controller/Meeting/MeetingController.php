@@ -4,6 +4,7 @@
 namespace App\Controller\Meeting;
 
 
+use App\Repository\AvailabilityRepository;
 use App\Repository\MeetingGuestRepository;
 use App\Repository\MeetingRepository;
 use App\Repository\UserRepository;
@@ -42,7 +43,13 @@ class MeetingController extends AbstractController
     {
         $user = $security->getUser();
         $event = $this->meetingGuestRepository->findMeetingWithUserId($user->getId());
-        return new Response(null, 200);
+        $my_meeting = $this->meetingRepository->findAllById($user->getId());
+
+        return $this->render("event/show.html.twig", [
+            'current_menu' => 'events',
+            'events' => $event,
+            'my_meeting' => $my_meeting,
+        ]);
 
     }
 }

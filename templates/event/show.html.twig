@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+{% block title "Events"%}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/event/main.css') }}">
+{% endblock %}
+{% block body %}
+    <div class="container" style="margin-top: 4cm;">
+            <h1>Events</h1>
+            {%  if my_meeting is defined and my_meeting is not empty %}
+                <a class="btn btn-info icon-align-right pull-right mr-5" href="{{ path('admin.meeting.index') }}">
+                    View our meeting
+                </a>
+            {% endif %}
+        <div class="row box">
+            {% for event in events %}
+                <div class="product--green product">
+                    <a class="btn btn-info icon-align-right" href="{{ path('meeting.show', {id: event.getMeeting.getId(), slug: event.getMeeting().getSlug()}) }}">
+                        View
+                    </a>
+                    <div class="product_inner">
+                        <img src="{{ asset('images/planning-png-6.jpg') }}" alt="">
+                        <h2 class="mt-4">Meeting create by {{ event.getMeeting().getUser().getUsername()}}</h2>
+                        <p class="mt-2">{{ event.getMeeting().getDescription()}}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock %}
