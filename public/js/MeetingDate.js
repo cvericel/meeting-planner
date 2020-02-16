@@ -22,10 +22,11 @@
         //Add jQuery datetimepicker
         $.datetimepicker.setLocale('fr');
         this.$datetimepicker.datetimepicker({
-            lang: 'fr',
-            step: 5,
-            inline: true,
-            format: 'Y-m-d H:m:s'
+            datepicker:false,
+            allowTimes:[
+                '12:00', '13:00', '15:00',
+                '17:00', '17:05', '17:20', '19:00', '20:00'
+            ]
         });
     };
 

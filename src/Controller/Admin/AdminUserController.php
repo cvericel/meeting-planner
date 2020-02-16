@@ -67,10 +67,6 @@ class AdminUserController extends AbstractController
 
             $this->entityManager->persist($user);
             $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('admin.user.show',
-                [
-                    'slug' => $user->getSlug()
-                ]);
         }
 
         return $this->render('admin/user/edit.html.twig', [

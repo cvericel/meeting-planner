@@ -1,7 +1,17 @@
 {{ form_start(form) }}
-        {{ form_row(form.imageFile, {
-                attr: {
-                        placeholder: 'Select a profil image'
-                }
-        }) }}
+        <div class="row">
+                <div class="col-sm-9">
+                        {{ form_row(form.imageFile, {
+                                attr: {
+                                        placeholder: 'Select a profil image'
+                                }
+                        }) }}
+                </div>
+                <div class="col-sm-3">
+                        {%  if form.vars.data.imageFilename|default %}
+                                <img src="{{ uploaded_asset(form.vars.data.imagePath) | imagine_filter('square150') }}" alt="" height="100">
+                        {% endif %}
+                </div>
+        </div>
+
 {{ form_end(form) }}

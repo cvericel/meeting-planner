@@ -19,12 +19,17 @@ class MeetingDate
     private $id;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
+     */
+    private $day;
+
+    /**
+     * @ORM\Column(type="time")
      */
     private $start_at;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="time")
      */
     private $end_at;
 
@@ -38,6 +43,7 @@ class MeetingDate
      * @ORM\OneToMany(targetEntity="App\Entity\Availability", mappedBy="meeting_date", orphanRemoval=true)
      */
     private $availabilities;
+
 
     public function __construct()
     {
@@ -113,6 +119,18 @@ class MeetingDate
                 $availability->setMeetingDateId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDay(): ?\DateTimeInterface
+    {
+        return $this->day;
+    }
+
+    public function setDay(\DateTimeInterface $day): self
+    {
+        $this->day = $day;
 
         return $this;
     }

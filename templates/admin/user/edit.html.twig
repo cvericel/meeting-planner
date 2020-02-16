@@ -5,7 +5,6 @@
 
 {% block body %}
     <div class="container jumbotron" style="margin-top: 5cm">
-        <img src="{{ uploaded_asset(user.imagePath) | imagine_filter('square150') }}" alt="">
         {{ include('admin/user/__form.html.twig') }}
     </div>
 {% endblock %}
