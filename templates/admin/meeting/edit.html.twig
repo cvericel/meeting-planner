@@ -31,6 +31,7 @@
                                     </th>
                                 </tr>
                                 <tr>
+                                    <th scope="col">Day</th>
                                     <th scope="col">Start at</th>
                                     <th scope="col">End at</th>
                                     <th scope="col">&nbsp;</th>
@@ -84,6 +85,25 @@
                 </table>
             </div>
         </div>
+        <div class="mt-5">
+            {% for date in meeting_date_list %}
+                <h2>The {{ date.day | date('d-m-Y') }} debut a {{ date.startAt | date('H:i')}}, fin a {{ date.endAt | date('H:i')}}</h2>
+                <div class="owl-carousel mt-5" id="js-meeting-date-choice-wrapper">
+                    {% for availability in date.availabilities %}
+                        <div class="profile-card">
+                            <div class="profile-card__img">
+                                <img src="{{ uploaded_asset(availability.meetingGuest.user.imagePath ) | imagine_filter('square150')}}" alt="">
+                            </div>
+                                <h2>{{ availability.meetingGuest.user.username }}</h2>
+                                <p>
+                                    {% if availability.choice %} Disposable {% else %} Not disposable {% endif %}
+                                </p>
+                        </div>
+                    {% endfor %}
+                </div>
+                <hr>
+            {% endfor %}
+        </div>
     </div>
     
 {% endblock %}
@@ -102,6 +122,14 @@
             let $meetingGuestWrapper = $('.js-meeting-guest');
             new MeetingGuest($meetingGuestWrapper);
         });
+
+        $('.owl-carousel').owlCarousel({
+            items:2,
+            loop:false,
+            margin:10,
+            autoHeight: true,
+            autoWidth:true
+        })
     </script>
 {% endblock %}
 

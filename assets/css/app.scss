@@ -1,1 +1,40 @@
+.profile-card {
+  background: black;
+  height: 200px;
+  margin: auto;
+  color: white;
+  border-radius: 25px;
+  width: auto;
 
+  h2 {
+    color: white;
+    position: absolute;
+    left: 5%;
+    top: 60%;
+  }
+
+  p {
+    color: white;
+    position: absolute;
+    left: 10%;
+    top:80%;
+  }
+
+  &__img {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+
+
+    img {
+      border-radius: 50%;
+      position: absolute;
+      top: 5%;
+      left:20%;
+      z-index: 1;
+      max-width: 90px;
+      opacity: 1;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    }
+  }
+}
