@@ -1,9 +1,9 @@
 (function (window, $, swal) {
-    window.MeetingDate = function ($wrapper, $datetimepicker, $userForm) {
+    window.MeetingDate = function ($wrapper, $datepicker, $timepicker) {
         this.$wrapper = $wrapper;
-        this.$datetimepicker = $datetimepicker;
+        this.$datepicker = $datepicker;
+        this.$timepicker = $timepicker;
         this.helper = new Helper(this.$wrapper);
-        this.$userForm = $userForm;
 
         //Delete meeting date event listener
         this.$wrapper.on(
@@ -19,14 +19,18 @@
             this.meetingDateAdd.bind(this)
         );
 
-        //Add jQuery datetimepicker
-        $.datetimepicker.setLocale('fr');
-        this.$datetimepicker.datetimepicker({
-            datepicker:false,
-            allowTimes:[
-                '12:00', '13:00', '15:00',
-                '17:00', '17:05', '17:20', '19:00', '20:00'
-            ]
+        //Add jQuery datepicker
+        this.$datepicker.datetimepicker({
+            timepicker:false,
+            format:'Y-m-d',
+            inline: true
+        });
+
+        //Add jQuery timepicker
+        this.$timepicker.datetimepicker({
+            datepicker: false,
+            format: 'H:i',
+            inline: true
         });
     };
 
@@ -52,7 +56,9 @@
                 $modalForm.modal('hide');
                 $tbody.prepend(data);
                 self.updateNumberOfMeetingDate();
-                self.$datetimepicker.datetimepicker('reset');
+                // reset datetimepicker
+                self.$datepicker.datetimepicker('reset');
+                self.$timepicker.datetimepicker('reset');
             }).catch(function (jqXHR) {
                 $form.closest('.js-new-meeting-date-form-wrapper')
                     .html(jqXHR.responseText);

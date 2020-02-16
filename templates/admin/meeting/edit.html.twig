@@ -95,8 +95,9 @@
     <script type="text/javascript">
         $(function () {
             let $meetingDateWrapper = $('.js-meeting-date-table');
-            let $dateTimePicker = $('.js-datetime-picker');
-            new MeetingDate($meetingDateWrapper, $dateTimePicker);
+            let $datePicker = $('.js-datetime-picker');
+            let $timePicker = $('.js-time-picker');
+            new MeetingDate($meetingDateWrapper, $datePicker, $timePicker);
 
             let $meetingGuestWrapper = $('.js-meeting-guest');
             new MeetingGuest($meetingGuestWrapper);
