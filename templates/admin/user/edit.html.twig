@@ -5,15 +5,7 @@
 
 {% block body %}
     <div class="container jumbotron" style="margin-top: 5cm">
-        <p>
-            {{ user.username }}
-        </p>
-        <p>
-            {{ user.email }}
-        </p>
-        <form action="{{ path('upload_test') }}" method="post" enctype="multipart/form-data">
-            <input type="file" name="image">
-            <button type="submit" class="btn btn-info">Upload</button>
-        </form>
+        <img src="{{ uploaded_asset(user.imagePath) | imagine_filter('square150') }}" alt="">
+        {{ include('admin/user/__form.html.twig') }}
     </div>
 {% endblock %}

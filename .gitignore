@@ -21,3 +21,13 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+/public/uploads
+
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###
+
+###> symfony/web-server-bundle ###
+/.web-server-pid
+###< symfony/web-server-bundle ###

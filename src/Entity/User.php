@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Service\UploaderHelper;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -51,24 +52,10 @@ class User implements UserInterface, \Serializable
     private $meetings;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $filename;
+    private $imageFilename;
 
-    /**
-     * @var File|null
-     * @Assert\Image(
-     *     mimeTypes="images/jpeg"
-     * )
-     * @Vich\UploadableField(mapping="meeting_image", fileNameProperty="filename")
-     */
-    private $imageFile;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $updated_at;
 
     private $plainPassword;
 
@@ -218,60 +205,34 @@ class User implements UserInterface, \Serializable
 
         return $this;
     }
-    
-    /**
-     * @return File|null
-     */
-    public function getImageFile(): ?File
-    {
-        return $this->imageFile;
-    }
-
-    /**
-     * @param File|null $imageFile
-     */
-    public function setImageFile(?File $imageFile): void
-    {
-        $this->imageFile = $imageFile;
-    }
 
     /**
      * @return string|null
      */
-    public function getFilename(): ?string
+    public function getImageFilename(): ?string
     {
-        return $this->filename;
+        return $this->imageFilename;
     }
 
     /**
-     * @param string|null $filename
+     * @param string|null $imageFilename
      * @return User
-     * @throws Exception
      */
-    public function setFilename(?string $filename): User
+    public function setImageFilename(?string $imageFilename): self
     {
-        $this->filename = $filename;
-        if ($this->imageFile instanceof UploadedFile) {
-            $this->updated_at = new DateTime('now');
-        }
+        $this->imageFilename = $imageFilename;
+
         return $this;
+    }
+
+    public function getImagePath()
+    {
+        return  UploaderHelper::USER_IMAGE . '/' . $this->getImageFilename();
     }
 
     public function getSlug () : string
     {
         return (new Slugify())->slugify($this->username);
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updated_at): self
-    {
-        $this->updated_at = $updated_at;
-
-        return $this;
     }
 
     /**

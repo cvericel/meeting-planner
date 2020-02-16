@@ -4,10 +4,13 @@
 namespace App\Controller\Admin;
 
 
-use App\Form\UserType;
+use App\Entity\User;
+use App\Form\EditUserType;
 use App\Repository\UserRepository;
+use App\Service\UploaderHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,6 +33,7 @@ class AdminUserController extends AbstractController
      */
     private $security;
 
+
     public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, Security $security)
     {
         $this->userRepository = $userRepository;
@@ -40,30 +44,38 @@ class AdminUserController extends AbstractController
     /**
      * @Route("/admin/Mon-compte/{slug}", name="admin.user.show", requirements={"slug": "[a-z0-9-]*"})
      * @param Request $request
+     * @param UploaderHelper $uploaderHelper
      * @return Response
      */
-    public function edit (Request $request) : Response
+    public function edit (Request $request, UploaderHelper $uploaderHelper) : Response
     {
+        //dd(phpinfo());
+        /** @var User $user */
         $user = $this->security->getUser();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(EditUserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() and $form->isValid()) {
+            /** @var UploadedFile $uploadedFile */
+            $uploadedFile = $form['imageFile']->getData();
+
+            // Test pour eviter de rentrer dans l'upload d'une image de profil s'il n'y en a pas de selectioner
+            if ($uploadedFile) {
+                $newFilename = $uploaderHelper->uploadArticleImage($uploadedFile);
+                $user->setImageFilename($newFilename);
+            }
+
             $this->entityManager->persist($user);
             $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('admin.meeting.index');
+            return $this->redirectToRoute('admin.user.show',
+                [
+                    'slug' => $user->getSlug()
+                ]);
         }
+
         return $this->render('admin/user/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView()
         ]);
-    }
-
-    /**
-     * @Route("/admin/upload/test", name="upload_test")
-     */
-    public function temporaryUploadAction (Request $request)
-    {
-        dd($request->files->get('image'));
     }
 }

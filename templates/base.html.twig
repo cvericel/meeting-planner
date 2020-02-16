@@ -122,6 +122,14 @@
         <script src="{{ asset('js/aos.js') }}"></script>
         <script src="{{ asset('js/main.js') }}"></script>
         {{ encore_entry_script_tags('app') }}
+        <script>
+            $('.custom-file-input').on('change', function (e) {
+                let inputFile = e.currentTarget;
+                $(inputFile).parent()
+                    .find('.custom-file-label')
+                    .html(inputFile.files[0].name)
+            });
+        </script>
         {% block javascripts %} {% endblock %}
     </body>
 </html>

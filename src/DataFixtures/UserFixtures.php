@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFixtures extends Fixture
@@ -19,7 +20,7 @@ class UserFixtures extends Fixture
         $this->encoder = $encoder;
     }
 
-    public function load(EntityManagerInterface $manager)
+    public function load(ObjectManager $manager)
     {
         $user = new User();
         $user->setUsername('admin');

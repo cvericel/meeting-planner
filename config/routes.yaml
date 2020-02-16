@@ -10,3 +10,6 @@ ajax_route:
   defaults:
     _controller: AppBundle:Default:ajax
   methods: [post]
+
+_liip_imagine:
+  resource: "@LiipImagineBundle/Resources/config/routing.yaml"
