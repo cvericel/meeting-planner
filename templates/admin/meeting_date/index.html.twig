@@ -8,10 +8,16 @@
             <button class="btn btn-info pull-right js-meeting-date-chosen"
                     data-url="{{ path('admin.meeting_date', {id_meeting: meeting_dates.meeting.id, id: meeting_dates.id}) }}">Choose this date for the meeting</button>
             <h1>Meeting date, the {{ meeting_dates.day | date('d-m-Y') }}</h1>
-
         </div>
-        <h5>Start at {{ meeting_dates.startAt | date('H:i') }}</h5>
-        <h5>End at {{ meeting_dates.endAt | date('H:i') }}</h5>
+        <div class="jumbotron">
+            <div class="row">
+                <h5 class="ml-3 mr-2">Start at {{ meeting_dates.startAt | date('H:i') }}</h5>
+                <h5>End at {{ meeting_dates.endAt | date('H:i') }}</h5>
+            </div>
+            {% for people in meeting_dates.availabilities %}
+                <p>{{ people.meetingGuest.user.email }} is {% if people.choice %} disposable {% else %} not disposable{% endif %}</p>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}
 

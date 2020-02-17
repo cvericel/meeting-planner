@@ -1,0 +1,13 @@
+    {{ guest.role }}
+    {% if guest.role == "GUEST" %}
+        <a href="#"
+           class="js-update-meeting-guest"
+           data-url="{{ path('admin.meeting_guest.update', {id_meeting: guest.meeting.id, id: guest.id}) }}"
+        ><span class="fa fa-arrow-up text-success"></span>
+    </a>
+    {% else %}
+        <a href="#"
+           class="js-update-meeting-guest"
+           data-url="{{ path('admin.meeting_guest.update', {id_meeting: guest.meeting.id, id: guest.id}) }}"
+        ><span class="fa fa-arrow-down text-danger"></span>
+    {% endif %}

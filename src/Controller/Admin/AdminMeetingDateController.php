@@ -48,16 +48,27 @@ class AdminMeetingDateController extends AbstractController
      */
     public function view(Request $request, $id_meeting, MeetingDate $meetingDate, MeetingRepository $meetingRepository): Response
     {
-        if ($request->isXmlHttpRequest()) {
-            $meeting = $meetingRepository->findOneBy(['id' => $id_meeting]);
-            $this->entityManager->persist($meeting);
-            $meeting->setChosenDate($meetingDate);
-            $this->entityManager->flush();
-            return new Response("", 200);
+        $meeting = $meetingRepository->findOneBy(['id' => $id_meeting]);
+        if ($this->security->getUser() === $meeting->getUser()) {
+            if ($request->isXmlHttpRequest()) {
+                // Get the meeting
+                // Test if the user is the author
+                dump($this->security->getUser());
+                dump($meeting->getUser());
+
+                $this->entityManager->persist($meeting);
+                $meeting->setChosenDate($meetingDate);
+                $this->entityManager->flush();
+                return new Response("", 200);
+                //TODO sent mail
+            } else {
+                return $this->render('admin/meeting_date/index.html.twig', [
+                    'meeting_dates' => $meetingDate
+                ]);
+            }
+        } else {
+            return $this->render('error/forbidden.html.twig');
         }
-        return $this->render('admin/meeting_date/index.html.twig', [
-            'meeting_dates' => $meetingDate
-        ]);
     }
 
     /**

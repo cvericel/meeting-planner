@@ -24,9 +24,15 @@ class AdminGuestController extends AbstractController
 
     private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    /**
+     * @var Security
+     */
+    private $security;
+
+    public function __construct(EntityManagerInterface $entityManager, Security $security)
     {
         $this->entityManager = $entityManager;
+        $this->security = $security;
     }
 
     /**
@@ -93,5 +99,31 @@ class AdminGuestController extends AbstractController
         }
 
         return new Response(null, 403);
+    }
+
+    /**
+     * @Route("/{id}/update", name="admin.meeting_guest.update", methods={"POST"})
+     * @param MeetingGuest $meetingGuest
+     * @return Response
+     */
+    public function update(MeetingGuest $meetingGuest): Response
+    {
+        $meeting = $meetingGuest->getMeeting();
+        if ($meeting->getUser() == $this->security->getUser()) {
+            $this->entityManager->persist($meetingGuest);
+            if ($meetingGuest->getRole() == "GUEST") {
+                $meetingGuest->setRole("ADMIN");
+            } else {
+                $meetingGuest->setRole("GUEST");
+            }
+            $this->entityManager->flush();
+            return $this->render('admin/meeting/__guestUpdateTd.html.twig', [
+                'id_meeting' => $meeting->getId(),
+                'guest' => $meetingGuest
+            ]);
+        } else {
+            return new Response(null, 400);
+        }
+
     }
 }

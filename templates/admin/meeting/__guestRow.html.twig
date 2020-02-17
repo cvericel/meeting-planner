@@ -1,8 +1,10 @@
 <tr>
     <td>{{ guest.user.email() }}</td>
-    <td>{{ guest.invitedAt|date('H:i:s d-m-Y') }}</td>
+    <td>{{ guest.invitedAt|date('d-m-Y') }}</td>
+    <td class="js-update-meeting-guest-td">
+         {{ include('admin/meeting/__guestUpdateTd.html.twig') }}
+    </td>
     <td><a href="#"
-
           class="text-danger js-delete-meeting-guest"
           data-url="{{ path('admin.meeting_guest.delete', {id_meeting: meeting.id, id: guest.id}) }}"
     >

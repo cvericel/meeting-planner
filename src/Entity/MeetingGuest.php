@@ -46,10 +46,16 @@ class MeetingGuest
      */
     private $availabilities;
 
+    /**
+     * @ORM\Column(type="string", length=40)
+     */
+    private $role;
+
     public function __construct()
     {
         $this->invited_at = new DateTime();
         $this->valid = false;
+        $this->role = "GUEST";
         $this->availabilities = new ArrayCollection();
     }
 
@@ -137,6 +143,18 @@ class MeetingGuest
                 $availability->setMeetingGuestId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRole(): ?string
+    {
+        return $this->role;
+    }
+
+    public function setRole(string $role): self
+    {
+        $this->role = $role;
 
         return $this;
     }
