@@ -1,40 +1,33 @@
 {% extends 'base.html.twig' %}
+
 {% block title 'admin'%}
+
 {% block body %}
-    <div class="container">
-        <h1>Gerer les dates</h1>
-        {%  for message in app.flashes('success') %}
-            <div class="alert alert-success">
-                {{ message }}
-            </div>
-        {% endfor %}
-        <table class="table table-stripped">
-            <thead>
-            <tr>
-                <th>Debut</th>
-                <th>Fin</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for meeting_date in meeting_dates %}
-                <tr>
-                    <td>{{ meeting_date.startAt }}</td>
-                    <td>{{ meeting_date.endAt }}</td>
-                    <td>
-                        <a href="{{ path('admin.meeting.edit', {id: meeting_date.id}) }}" class="btn btn-secondary">Editez</a>
-                        <form method="post" action="{{ path('admin.meeting_date.delete', {id: meeting_date.id}) }}" style="display: inline-block" onsubmit="return confirm('Etes-vous sure de vouloir supprimer cette reunion ?')">
-                            <input type="hidden" name="_method" value="DELETE">
-                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ meeting_date.id)  }}">
-                            <button class="btn btn-danger">Supprimer</button>
-                        </form>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-        <div class="text-right">
-            <a href="{{ path('admin.meeting_date.new') }}" class="btn btn-primary">Créer une nouvelle date</a>
+    <div class="container" style="margin-top: 5cm;">
+        <div class="col-12">
+            <button class="btn btn-info pull-right js-meeting-date-chosen"
+                    data-url="{{ path('admin.meeting_date', {id_meeting: meeting_dates.meeting.id, id: meeting_dates.id}) }}">Choose this date for the meeting</button>
+            <h1>Meeting date, the {{ meeting_dates.day | date('d-m-Y') }}</h1>
+
         </div>
+        <h5>Start at {{ meeting_dates.startAt | date('H:i') }}</h5>
+        <h5>End at {{ meeting_dates.endAt | date('H:i') }}</h5>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $('.js-meeting-date-chosen').on('click', function (e) {
+            let $target = $(e.currentTarget);
+            $.ajax({
+                url: $target.data('url'),
+                method: 'POST'
+            }).then(function (data) {
+
+            }).catch(function (jqXHR) {
+                console.log(jqXHR.responseText);
+            });
+        });
+    </script>
+
 {% endblock %}

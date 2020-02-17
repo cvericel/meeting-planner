@@ -41,6 +41,26 @@ class AdminMeetingDateController extends AbstractController
     }
 
     /**
+     * @Route("/{id}", name="admin.meeting_date")
+     * @param Request $request
+     * @param $id_meeting
+     * @return Response
+     */
+    public function view(Request $request, $id_meeting, MeetingDate $meetingDate, MeetingRepository $meetingRepository): Response
+    {
+        if ($request->isXmlHttpRequest()) {
+            $meeting = $meetingRepository->findOneBy(['id' => $id_meeting]);
+            $this->entityManager->persist($meeting);
+            $meeting->setChosenDate($meetingDate);
+            $this->entityManager->flush();
+            return new Response("", 200);
+        }
+        return $this->render('admin/meeting_date/index.html.twig', [
+            'meeting_dates' => $meetingDate
+        ]);
+    }
+
+    /**
      * @Route("/create", name="admin.meeting_date.create", methods={"POST"})
      * @param Request $request
      * @param $id_meeting
@@ -101,7 +121,7 @@ class AdminMeetingDateController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/valid", name="admin.meeting_date.choice.valid", methods={"POST"})
+     * @Route("/valid-{id}", name="admin.meeting_date.choice.valid", methods={"POST"})
      * @param MeetingDate $meetingDate
      * @return Response
      * @throws Exception
@@ -112,7 +132,7 @@ class AdminMeetingDateController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/refuse", name="admin.meeting_date.choice.refuse", methods={"POST"})
+     * @Route("/refuse-{id}", name="admin.meeting_date.choice.refuse", methods={"POST"})
      * @param MeetingDate $meetingDate
      * @return Response
      * @throws Exception

@@ -134,4 +134,19 @@ class MeetingDate
 
         return $this;
     }
+
+    /**
+     * Return liste of people who are available for an meeting date
+     * @return Collection
+     */
+    public function getDisposable(): Collection
+    {
+        $liste = new ArrayCollection();
+        foreach($this->availabilities as $avaibilities) {
+            if ($avaibilities->getChoice()) {
+                $liste->add($avaibilities);
+            }
+        }
+        return $liste;
+    }
 }

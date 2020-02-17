@@ -85,23 +85,33 @@
                 </table>
             </div>
         </div>
-        <div class="mt-5">
+        <div class="owl-carousel mt-5">
             {% for date in meeting_date_list %}
-                <h2>The {{ date.day | date('d-m-Y') }} debut a {{ date.startAt | date('H:i')}}, fin a {{ date.endAt | date('H:i')}}</h2>
-                <div class="owl-carousel mt-5" id="js-meeting-date-choice-wrapper">
-                    {% for availability in date.availabilities %}
-                        <div class="profile-card">
-                            <div class="profile-card__img">
-                                <img src="{{ uploaded_asset(availability.meetingGuest.user.imagePath ) | imagine_filter('square150')}}" alt="">
-                            </div>
-                                <h2>{{ availability.meetingGuest.user.username }}</h2>
-                                <p>
-                                    {% if availability.choice %} Disposable {% else %} Not disposable {% endif %}
-                                </p>
+                <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row no-gutters">
+                        <div class="col-md-4">
+                            <img src="{{ uploaded_asset(date.meeting.user.imagePath) | imagine_filter('square150') }}" class="card-img" alt="">
                         </div>
-                    {% endfor %}
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">The {{ date.day | date('d m Y')  }}</h5>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h6 class="border-right">Start at</h6>
+                                        <span>{{ date.startAt | date('H:i') }}</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <h6>End at</h6>
+                                        <span>{{ date.endAt | date('H:i') }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            {{ date.disposable.count }}
+                            <a href="{{ path('admin.meeting_date', {id_meeting: date.meeting.id, id: date.id}) }}">test</a>
+                        </div>
+                    </div>
                 </div>
-                <hr>
             {% endfor %}
         </div>
     </div>

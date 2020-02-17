@@ -54,6 +54,11 @@ class Meeting
      */
     private $meetingGuests;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\MeetingDate", cascade={"persist", "remove"})
+     */
+    private $chosen_date;
+
 
     public function __construct()
     {
@@ -196,6 +201,18 @@ class Meeting
                 $meetingGuest->setMeeting(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getChosenDate(): ?MeetingDate
+    {
+        return $this->chosen_date;
+    }
+
+    public function setChosenDate(?MeetingDate $chosen_date): self
+    {
+        $this->chosen_date = $chosen_date;
 
         return $this;
     }
