@@ -4,9 +4,6 @@
 namespace App\Controller;
 
 use App\Entity\Meeting;
-use App\Entity\MeetingSearch;
-use App\Entity\User;
-use App\Form\MeetingSearchType;
 use App\Repository\AvailabilityRepository;
 use App\Repository\MeetingDateRepository;
 use App\Repository\MeetingGuestRepository;
@@ -87,7 +84,8 @@ class MeetingController extends AbstractController
                 'meeting' => $meeting,
                 'meetingDate' => $meetingDate,
                 'current_menu' => 'meeting',
-                'availability' => $availability
+                'availability' => $availability,
+                'guest' => $guest
             ]);
         } else {
             $token = $request->get('t');
@@ -98,10 +96,13 @@ class MeetingController extends AbstractController
                     'meeting' => $meeting,
                     'meetingDate' => $meetingDate,
                     'current_menu' => 'meeting',
-                    'availability' => $availability
+                    'availability' => $availability,
+                    'guest' => $guest
                 ]);
             }
             return $this->render('error/forbidden.html.twig');
         }
     }
+
+
 }

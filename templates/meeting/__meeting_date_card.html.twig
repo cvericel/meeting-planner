@@ -15,28 +15,54 @@
         </div>
         <p class="card-text">It's a broader card with text below as a natural lead-in to extra content. This content is a little longer.</p>
         <div class="js-availability-wrapper">
-            {% if availability is defined %}
-                {% set break = false %}
-                {% for choice in availability %}
-                    {% if choice.meetingDate.id == date.id %}
-                        {% set break = true %}
-                        {% if choice.choice == true %}
-                            <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('admin.meeting_date.choice.refuse', {id_meeting: meeting.id, id: date.id}) }}">Not disposable</a>
-                        {% else %}
-                            <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('admin.meeting_date.choice.valid', {id_meeting: meeting.id, id: date.id}) }}">Disposable</a>
+            {% if guest.guestWithAccount %}
+                {% if availability is defined %}
+                    {% set break = false %}
+                    {% for choice in availability %}
+                        {% if choice.meetingDate.id == date.id %}
+                            {% set break = true %}
+                            {% if choice.choice == true %}
+                                <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('meeting_date.choice.refuse', {id_meeting_date: date.id, id: guest.id}) }}">Not disposable</a>
+                            {% else %}
+                                <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('meeting_date.choice.accept', {id_meeting_date: date.id, id: guest.id}) }}">Disposable</a>
+                            {% endif %}
+                            <a href="#" class="btn btn-danger js-meeting-date-choice-cancel" data-url="{{ path('availability.cancel', {id: choice.id}) }}">
+                                <span class="fa fa-times"> </span>
+                            </a>
                         {% endif %}
-                        <a href="#" class="btn btn-danger js-meeting-date-choice-cancel" data-url="{{ path('admin.availability.cancel', {id: choice.id}) }}">
-                            <span class="fa fa-times"> </span>
-                        </a>
+                    {% endfor %}
+                    {% if not break %}
+                        <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('meeting_date.choice.accept', {id_meeting_date: date.id, id: guest.id}) }}">Disposable</a>
+                        <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('meeting_date.choice.refuse', {id_meeting_date: date.id, id: guest.id}) }}">Not disposable</a>
                     {% endif %}
-                {% endfor %}
-                {% if not break %}
-                    <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('admin.meeting_date.choice.valid', {id_meeting: meeting.id, id: date.id}) }}">Disposable</a>
-                    <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('admin.meeting_date.choice.refuse', {id_meeting: meeting.id, id: date.id}) }}">Not disposable</a>
+                {% else %}
+                    <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('meeting_date.choice.accept', {id_meeting_date: date.id, id: guest.id}) }}">Disposable</a>
+                    <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('meeting_date.choice.refuse', {id_meeting_date: date.id, id: guest.id}) }}">Not disposable</a>
                 {% endif %}
             {% else %}
-                <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('admin.meeting_date.choice.valid', {id_meeting: meeting.id, id: date.id}) }}">Disposable</a>
-                <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('admin.meeting_date.choice.refuse', {id_meeting: meeting.id, id: date.id}) }}">Not disposable</a>
+                {% if availability is defined %}
+                    {% set break = false %}
+                    {% for choice in availability %}
+                        {% if choice.meetingDate.id == date.id %}
+                            {% set break = true %}
+                            {% if choice.choice == true %}
+                                <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('meeting_date_choice.refuse_without_account', {id_meeting_date: date.id, id: guest.id, token: guest.guestWithoutAccount.token}) }}">Not disposable</a>
+                            {% else %}
+                                <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('meeting_date_choice.accept_without_account', {id_meeting_date: date.id, id: guest.id, token: guest.guestWithoutAccount.token}) }}">Disposable</a>
+                            {% endif %}
+                            <a href="#" class="btn btn-danger js-meeting-date-choice-cancel" data-url="{{ path('availability.cancel_without_account', {id: choice.id, token: guest.guestWithoutAccount.token}) }}">
+                                <span class="fa fa-times"> </span>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                    {% if not break %}
+                        <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('meeting_date_choice.accept_without_account', {id_meeting_date: date.id, id: guest.id, token: guest.guestWithoutAccount.token}) }}">Disposable</a>
+                        <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('meeting_date_choice.refuse_without_account', {id_meeting_date: date.id, id: guest.id, token: guest.guestWithoutAccount.token}) }}">Not disposable</a>
+                    {% endif %}
+                {% else %}
+                    <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('meeting_date_choice.accept_without_account', {id_meeting_date: date.id, id: guest.id, token: guest.guestWithoutAccount.token}) }}">Disposable</a>
+                    <a href="#" class="btn btn-primary js-meeting-date-choice" data-url="{{ path('meeting_date_choice.refuse_without_account', {id_meeting_date: date.id, id: guest.id, token: guest.guestWithoutAccount.token}) }}">Not disposable</a>
+                {% endif %}
             {% endif %}
         </div>
     </div>
