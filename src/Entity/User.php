@@ -60,9 +60,9 @@ class User implements UserInterface, \Serializable
     private $plainPassword;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MeetingGuest", mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\GuestWithAccount", mappedBy="user", orphanRemoval=true)
      */
-    private $meetingGuests;
+    private $guestWithAccounts;
 
     public function __construct()
     {
@@ -71,6 +71,7 @@ class User implements UserInterface, \Serializable
         $this->updated_at = new DateTime();
         $this->events = new ArrayCollection();
         $this->meetingGuests = new ArrayCollection();
+        $this->guestWithAccounts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -236,30 +237,30 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return Collection|MeetingGuest[]
+     * @return Collection|GuestWithAccount[]
      */
-    public function getMeetingGuests(): Collection
+    public function getGuestWithAccounts(): Collection
     {
-        return $this->meetingGuests;
+        return $this->guestWithAccounts;
     }
 
-    public function addMeetingGuest(MeetingGuest $meetingGuest): self
+    public function addGuestWithAccount(GuestWithAccount $guestWithAccount): self
     {
-        if (!$this->meetingGuests->contains($meetingGuest)) {
-            $this->meetingGuests[] = $meetingGuest;
-            $meetingGuest->setUser($this);
+        if (!$this->guestWithAccounts->contains($guestWithAccount)) {
+            $this->guestWithAccounts[] = $guestWithAccount;
+            $guestWithAccount->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeMeetingGuest(MeetingGuest $meetingGuest): self
+    public function removeGuestWithAccount(GuestWithAccount $guestWithAccount): self
     {
-        if ($this->meetingGuests->contains($meetingGuest)) {
-            $this->meetingGuests->removeElement($meetingGuest);
+        if ($this->guestWithAccounts->contains($guestWithAccount)) {
+            $this->guestWithAccounts->removeElement($guestWithAccount);
             // set the owning side to null (unless already changed)
-            if ($meetingGuest->getUser() === $this) {
-                $meetingGuest->setUser(null);
+            if ($guestWithAccount->getUser() === $this) {
+                $guestWithAccount->setUser(null);
             }
         }
 

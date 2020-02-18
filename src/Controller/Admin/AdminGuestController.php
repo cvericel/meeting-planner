@@ -4,6 +4,8 @@
 namespace App\Controller\Admin;
 
 
+use App\Entity\GuestWithAccount;
+use App\Entity\GuestWithoutAccount;
 use App\Entity\MeetingGuest;
 use App\Repository\MeetingGuestRepository;
 use App\Repository\MeetingRepository;
@@ -51,20 +53,51 @@ class AdminGuestController extends AbstractController
                                 MeetingGuestRepository $meetingGuestRepository): Response
     {
         $meeting = $meetingRepository->find($id_meeting);
+        $email = $request->get('q');
         if ($meeting->getUser() === $meeting->getUser()) {
-            $email = $request->get('q');
             $user = $userRepository->findOneByEmail($email);
             //we test if the user has already been invited
             if ($user) {
-                $already_invited = $meetingGuestRepository->findAlreadyIn($user->getId(), $id_meeting);
+                $already_invited = $meetingGuestRepository->findAlreadyInWithAccount($user->getId(), $id_meeting);
                 if ($already_invited) {
                     $html = "Already invited";
+
                     return new Response($html, 400);
                 } else {
+
+                    // Create meeting guest
                     $meeting_guest = new MeetingGuest();
                     $entityManager->persist($meeting_guest);
                     $meeting_guest->setMeeting($meeting);
-                    $meeting_guest->setUser($user);
+
+                    // Create guest with account
+                    $guestWithAccount = new GuestWithAccount($meeting_guest, $user);
+                    $entityManager->persist($guestWithAccount);
+                    $meeting_guest->setGuestWithAccount($guestWithAccount);
+                    $entityManager->flush();
+
+
+                    return $this->render('admin/meeting/__guestRow.html.twig', [
+                        'meeting' => $meeting,
+                        'guest' => $meeting_guest
+                    ]);
+                }
+            } else {
+                // invited outside person
+                $already_invited = $meetingGuestRepository->findAlreadyInWithoutAccount($email, $id_meeting);
+                if ($already_invited) {
+                    $html = "Already invited";
+
+                    return new Response($html, 400);
+                } else {
+                    // Create meeting guest
+                    $meeting_guest = new MeetingGuest();
+                    $entityManager->persist($meeting_guest);
+                    $meeting_guest->setMeeting($meeting);
+
+                    // Create guest without account
+                    $guestWithoutAccount = new GuestWithoutAccount($meeting_guest, $email);
+                    $meeting_guest->setGuestWithoutAccount($guestWithoutAccount);
                     $entityManager->flush();
 
                     return $this->render('admin/meeting/__guestRow.html.twig', [

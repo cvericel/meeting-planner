@@ -77,7 +77,7 @@
                                                 <a href="{{ path('meeting.view') }}">Events</a>
                                                     <span class="notification" style="padding: 0">
                                                         {% if app.user %}
-                                                                {{ app.user.getMeetingGuests.count }}
+                                                                {{ app.user.guestWithAccounts.count }}
                                                         {% else %}
                                                             0
                                                         {%  endif %}

@@ -2,10 +2,13 @@
 
 namespace App\Repository;
 
+use App\Entity\GuestWithAccount;
+use App\Entity\GuestWithoutAccount;
 use App\Entity\MeetingGuest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * @method MeetingGuest|null find($id, $lockMode = null, $lockVersion = null)
@@ -25,12 +28,26 @@ class MeetingGuestRepository extends ServiceEntityRepository
      * @param $id_meeting
      * @return array
      */
-    public function findAlreadyIn ($id_user, $id_meeting) : array
+    public function findAlreadyInWithAccount ($id_user, $id_meeting) : array
     {
         return $this->createQueryBuilder('q')
-            ->andWhere('q.user = :id_user')
+            ->innerJoin(GuestWithAccount::class, 'g', Join::WITH, 'q.id = g.meeting_guest')
+            ->andWhere('g.user = :id_user')
             ->andWhere('q.meeting = :id_meeting')
             ->setParameter('id_user', $id_user)
+            ->setParameter('id_meeting', $id_meeting)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findAlreadyInWithoutAccount ($email, $id_meeting) : array
+    {
+        return $this->createQueryBuilder('q')
+            ->innerJoin(GuestWithoutAccount::class, 'g', Join::WITH, 'q.id = g.meeting_guest')
+            ->andWhere('g.email = :email')
+            ->andWhere('q.meeting = :id_meeting')
+            ->setParameter('email', $email)
             ->setParameter('id_meeting', $id_meeting)
             ->getQuery()
             ->getResult()

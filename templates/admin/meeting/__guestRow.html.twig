@@ -1,5 +1,10 @@
 <tr>
-    <td>{{ guest.user.email() }}</td>
+    {% if guest.guestWithAccount %}
+        <td>{{ guest.guestWithAccount.user.email }}</td>
+    {% else %}
+        <td>{{ guest.guestWithoutAccount.email }}</td>
+
+    {% endif %}
     <td>{{ guest.invitedAt|date('d-m-Y') }}</td>
     <td class="js-update-meeting-guest-td">
          {{ include('admin/meeting/__guestUpdateTd.html.twig') }}

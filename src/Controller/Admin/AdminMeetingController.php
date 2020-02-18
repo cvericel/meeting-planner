@@ -122,7 +122,6 @@ class AdminMeetingController extends AbstractController
 
         $meeting_date_list = $meetingDateRepository->findAllById($meeting->getId());
         $meeting_date_guest_list = $meetingGuestRepository->findAllInMeeting($meeting->getId());
-
         return $this->render('admin/meeting/edit.html.twig', [
             'meeting' => $meeting,
             'meeting_date_list' => $meeting_date_list,

@@ -35,11 +35,6 @@ class MeetingGuest
      */
     private $valid;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="meetingGuests")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Availability", mappedBy="meeting_guest", orphanRemoval=true)
@@ -50,6 +45,16 @@ class MeetingGuest
      * @ORM\Column(type="string", length=40)
      */
     private $role;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\GuestWithAccount", mappedBy="meeting_guest", cascade={"persist", "remove"})
+     */
+    private $guestWithAccount;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\GuestWithoutAccount", mappedBy="meeting_guest", cascade={"persist", "remove"})
+     */
+    private $guestWithoutAccount;
 
     public function __construct()
     {
@@ -100,22 +105,6 @@ class MeetingGuest
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param User $user
-     * @return $this
-     */
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Availability[]
      */
@@ -155,6 +144,40 @@ class MeetingGuest
     public function setRole(string $role): self
     {
         $this->role = $role;
+
+        return $this;
+    }
+
+    public function getGuestWithAccount(): ?GuestWithAccount
+    {
+        return $this->guestWithAccount;
+    }
+
+    public function setGuestWithAccount(GuestWithAccount $guestWithAccount): self
+    {
+        $this->guestWithAccount = $guestWithAccount;
+
+        // set the owning side of the relation if necessary
+        if ($guestWithAccount->getMeetingGuest() !== $this) {
+            $guestWithAccount->setMeetingGuest($this);
+        }
+
+        return $this;
+    }
+
+    public function getGuestWithoutAccount(): ?GuestWithoutAccount
+    {
+        return $this->guestWithoutAccount;
+    }
+
+    public function setGuestWithoutAccount(GuestWithoutAccount $guestWithoutAccount): self
+    {
+        $this->guestWithoutAccount = $guestWithoutAccount;
+
+        // set the owning side of the relation if necessary
+        if ($guestWithoutAccount->getMeetingGuest() !== $this) {
+            $guestWithoutAccount->setMeetingGuest($this);
+        }
 
         return $this;
     }
