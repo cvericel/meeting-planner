@@ -71,7 +71,8 @@ class MeetingGuestRepository extends ServiceEntityRepository
     public function findMeetingWithUserId ($user_id): array
     {
         return $this->createQueryBuilder('q')
-            ->andWhere('q.user = :id_user')
+            ->innerJoin(GuestWithAccount::class, 'g', Join::WITH, 'q.id = g.meeting_guest')
+            ->andWhere('g.user = :id_user')
             ->setParameter('id_user', $user_id)
             ->getQuery()
             ->getResult();
@@ -81,13 +82,31 @@ class MeetingGuestRepository extends ServiceEntityRepository
     {
         try {
             return $this->createQueryBuilder('q')
-                ->andWhere('q.user = :id_user')
+                ->innerJoin(GuestWithAccount::class, 'g', Join::WITH, 'q.id = g.meeting_guest')
+                ->andWhere('g.user = :id_user')
                 ->andWhere('q.meeting = :id_meeting')
                 ->setParameter('id_meeting', $id_meeting)
                 ->setParameter('id_user', $id_user)
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+            return null;
+        }
+    }
+
+    public function findInMeetingGuestWithToken ($id_meeting, $token)
+    {
+        try {
+            return $this->createQueryBuilder('q')
+                ->innerJoin(GuestWithoutAccount::class, 'g', Join::WITH, 'q.id = g.meeting_guest')
+                ->andWhere('g.token = :token')
+                ->andWhere('q.meeting = :id_meeting')
+                ->setParameter('id_meeting', $id_meeting)
+                ->setParameter('token', $token)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            return null;
         }
     }
 

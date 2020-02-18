@@ -69,10 +69,8 @@ class MeetingController extends AbstractController
                           AvailabilityRepository $availabilityRepository,
                           Security $security) : Response
     {
-        $search = new MeetingSearch();
-        $form = $this->createForm(MeetingSearchType::class, $search);
-        $form->handleRequest($request);
         $meetingSlug = $meeting->getSlug();
+        $meetingDate = $meetingDateRepository->findAllById($meeting->getId());
 
         if ($meetingSlug !== $slug) {
             return $this->redirectToRoute('meeting.show', [
@@ -81,16 +79,29 @@ class MeetingController extends AbstractController
             ], 301);
         }
 
-        $meetingDate = $meetingDateRepository->findAllById($meeting->getId());
-        $guest = $meetingGuestRepository->findUserInMeetingGuest($meeting, $security->getUser()->getId());
-        $availability = $availabilityRepository->findAllAvailabilityInMeeting($guest->getId(), $meeting);
+        if($security->getUser()) {
+            $guest = $meetingGuestRepository->findUserInMeetingGuest($meeting, $security->getUser()->getId());
+            $availability = $availabilityRepository->findAllAvailabilityInMeeting($guest->getId(), $meeting);
 
-        return $this->render('meeting/show.html.twig', [
-            'meeting' => $meeting,
-            'meetingDate' => $meetingDate,
-            'current_menu' => 'meeting',
-            'form' => $form->createView(),
-            'availability' => $availability
-        ]);
+            return $this->render('meeting/show.html.twig', [
+                'meeting' => $meeting,
+                'meetingDate' => $meetingDate,
+                'current_menu' => 'meeting',
+                'availability' => $availability
+            ]);
+        } else {
+            $token = $request->get('t');
+            $guest = $meetingGuestRepository->findInMeetingGuestWithToken($meeting, $token);
+            if ($guest) {
+                $availability = $availabilityRepository->findAllAvailabilityInMeeting($guest->getId(), $meeting);
+                return $this->render('meeting/show.html.twig', [
+                    'meeting' => $meeting,
+                    'meetingDate' => $meetingDate,
+                    'current_menu' => 'meeting',
+                    'availability' => $availability
+                ]);
+            }
+            return $this->render('error/forbidden.html.twig');
+        }
     }
 }

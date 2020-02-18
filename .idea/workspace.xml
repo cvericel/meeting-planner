@@ -2,17 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4332e9a6-bdb1-4750-abda-788472085b76" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Migrations/Version20200218132239.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Migrations/Version20200218132709.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/AdminGuestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/AdminGuestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/AdminMeetingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/AdminMeetingController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/MeetingGuest.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/MeetingGuest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/MeetingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/MeetingController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/GuestWithoutAccount.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/GuestWithoutAccount.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Repository/MeetingGuestRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/MeetingGuestRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/admin/meeting/__guestRow.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/meeting/__guestRow.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/admin/meeting/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/meeting/edit.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -288,7 +281,7 @@
       <workItem from="1581848481589" duration="2310000" />
       <workItem from="1581851032526" duration="17090000" />
       <workItem from="1581973188156" duration="6789000" />
-      <workItem from="1582029745599" duration="4678000" />
+      <workItem from="1582029745599" duration="6773000" />
     </task>
     <servers />
   </component>
