@@ -2,11 +2,13 @@
 
 namespace App\Repository;
 
+use App\Entity\Meeting;
 use App\Entity\MeetingSearch;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -31,30 +33,13 @@ class UserRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+            return null;
         }
     }
 
-    public function findAllUserQuery (MeetingSearch $meetingSearch)
-    {
-        $query = $this->createQueryBuilder('p');
-
-        if ($meetingSearch->getEmail()) {
-            $query = $query
-                ->andWhere('p.email = :searchEmail')
-                ->setParameter('searchEmail', $meetingSearch->getEmail());
-        }
-        return $query
-                ->getQuery()
-                ->getResult();
-    }
-
-    public function findUserQuery ()
-    {
-        return $this->createQueryBuilder('p')
-            ->getQuery()
-            ->getResult();
-    }
-
+    /**
+     * @return User[]
+     */
     public function findAllSubscribedToNewletter(): array
     {
         return $this->createQueryBuilder('q')

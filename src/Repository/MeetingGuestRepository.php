@@ -57,7 +57,7 @@ class MeetingGuestRepository extends ServiceEntityRepository
     /**
      * Return all meeting guest for one meeting
      * @param $meeting_id
-     * @return array
+     * @return MeetingGuest[]
      */
     public function findAllInMeeting ($meeting_id) : array
     {

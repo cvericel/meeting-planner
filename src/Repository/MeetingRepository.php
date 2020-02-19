@@ -3,8 +3,14 @@
 namespace App\Repository;
 
 use App\Entity\Meeting;
+use App\Entity\MeetingDate;
+use App\Entity\User;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Types\DateType;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 
 /**
  * @method Meeting|null find($id, $lockMode = null, $lockVersion = null)
@@ -28,6 +34,21 @@ class MeetingRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->andWhere('p.user = :id_user')
             ->setParameter('id_user', $id_user)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Meeting[]
+     * @throws Exception
+     */
+    public function findAllMeetingWhoHasFinalDate(): array
+    {
+        return $this->createQueryBuilder('m')
+            ->innerJoin(MeetingDate::class, 'd', Join::WITH, 'm.chosen_date = d.id')
+            ->andWhere('m.chosen_date IS NOT NULL')
+            ->andWhere('d.day > :date')
+            ->setParameter('date', new DateTime())
             ->getQuery()
             ->getResult();
     }

@@ -181,4 +181,28 @@ class MeetingGuest
 
         return $this;
     }
+
+    /**
+     * Return email of the guest
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        if ($this->getGuestWithAccount()) {
+            return $this->getGuestWithAccount()->getUser()->getEmail();
+        }
+        return $this->getGuestWithoutAccount()->getEmail();
+    }
+
+    /**
+     * Return username of the guest
+     * @return string
+     */
+    public function getUsername(): ?string
+    {
+        if ($this->getGuestWithAccount()) {
+            return $this->getGuestWithAccount()->getUser()->getUsername();
+        }
+        return $this->getGuestWithoutAccount()->getEmail();
+    }
 }
