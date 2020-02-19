@@ -63,12 +63,13 @@ class MeetingDateController extends AbstractController
      */
     public function validDate ($id_meeting_date, MeetingGuest $meetingGuest): Response
     {
-        if ($this->security->getUser() === $meetingGuest->getGuestWithAccount()->getUser()) {
-            $meetingDate = $this->meetingDateRepository->findOneBy(['id' => $id_meeting_date]);
-            return $this->availability($meetingDate, $meetingGuest, True);
-        } else {
-            return new Response("Accees interdit", 400);
+        if($meetingGuest->getGuestWithAccount()) {
+            if ($this->security->getUser() === $meetingGuest->getGuestWithAccount()->getUser()) {
+                $meetingDate = $this->meetingDateRepository->findOneBy(['id' => $id_meeting_date]);
+                return $this->availability($meetingDate, $meetingGuest, True);
+            }
         }
+        return new Response("Accees interdit", 400);
     }
 
     /**
@@ -80,12 +81,13 @@ class MeetingDateController extends AbstractController
      */
     public function refuseDate($id_meeting_date, MeetingGuest $meetingGuest): Response
     {
-        if ($this->security->getUser() === $meetingGuest->getGuestWithAccount()->getUser()) {
-            $meetingDate = $this->meetingDateRepository->findOneBy(['id' => $id_meeting_date]);
-            return $this->availability($meetingDate, $meetingGuest, False);
-        } else {
-            return new Response("Accees interdit", 400);
+        if($meetingGuest->getGuestWithAccount()) {
+            if ($this->security->getUser() === $meetingGuest->getGuestWithAccount()->getUser()) {
+                $meetingDate = $this->meetingDateRepository->findOneBy(['id' => $id_meeting_date]);
+                return $this->availability($meetingDate, $meetingGuest, False);
+            }
         }
+        return new Response("Accees interdit", 400);
     }
 
 

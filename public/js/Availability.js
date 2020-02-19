@@ -33,13 +33,27 @@
 
         },
         __ajaxRequest: function (url, $target) {
-            console.log("2" + url);
             $.ajax({
                 url: url,
                 method: 'post'
             }).then(function (data) {
                 let $availabilityWrapper = $target.closest('.js-availability-wrapper');
                 $availabilityWrapper.html(data);
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 30000,
+                    timerProgressBar: true,
+                    onOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }});
+
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Choix enregistré !'
+                })
             }).catch(function (jqXHR) {
                 console.log("Ajax error");
             });

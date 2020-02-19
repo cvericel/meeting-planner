@@ -54,6 +54,14 @@ class UserRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findAllSubscribedToNewletter(): array
+    {
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.subscribeToNewsletter = 1')
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

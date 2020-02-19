@@ -8,6 +8,7 @@
 
 {% block body %}
     <div class="container mt-4">
+
         {% if error %}
             <div class="alert alert-danger">
                 {{ error.messageKey | trans(error.messageData, 'security') }}
@@ -30,4 +31,27 @@
         </form>
         <a href="{{ path('user.register') }}">S'inscrire</a>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {% for message in app.flashes('success') %}
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                onOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: 'success',
+                title: '{{ message }}'
+            })
+        </script>
+    {% endfor %}
 {% endblock %}
