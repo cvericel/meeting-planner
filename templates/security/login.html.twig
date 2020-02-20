@@ -3,55 +3,65 @@
 {% block title 'Se connecter'%}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/util.css') }}">
 {% endblock %}
 
 {% block body %}
-    <div class="container mt-4">
+    <div class="container-fluid">
+        <div class="limiter">
+            {% if error %}
+                <div class="alert alert-danger" style="margin-top: 3cm; margin-bottom: -2.5cm;">
+                    {{ error.messageKey | trans(error.messageData, 'security') }}
+                </div>
+            {% endif %}
+            <div class="container-login100">
+                <div class="wrap-login100">
+                    <div class="login100-pic js-tilt" data-tilt>
+                        <img src="{{ asset('images/img-01.png') }}" alt="IMG">
+                    </div>
+                    <form action="{{ path('login') }}" method="post" class="login100-form validate-form">
+                        <span class="login100-form-title">
+                            Member Login
+                        </span>
+                        <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                            <input class="input100" type="text" id="username" name="_username" placeholder="Username">
+                            <span class="focus-input100"> </span>
+                            <span class="symbol-input100">
+                                <i class="fa fa-user-circle" aria-hidden="true"> </i>
+                            </span>
+                        </div>
 
-        {% if error %}
-            <div class="alert alert-danger">
-                {{ error.messageKey | trans(error.messageData, 'security') }}
+                        <div class="wrap-input100 validate-input" data-validate = "Password is required">
+                            <input class="input100" type="password" id="password" name="_password" placeholder="Password">
+                            <span class="focus-input100"> </span>
+                            <span class="symbol-input100">
+                                <i class="fa fa-lock" aria-hidden="true"> </i>
+                            </span>
+                        </div>
+
+                        <div class="container-login100-form-btn">
+                            <button class="login100-form-btn">
+                                Login
+                            </button>
+                        </div>
+
+                        <div class="text-center p-t-12">
+                            <span class="txt1">
+                                Forgot
+                            </span>
+                            <a class="txt2" href="#">Password?</a>
+                        </div>
+
+                        <div class="text-center p-t-136">
+                            <a class="txt2" href="{{ path('user.register') }}">
+                                Create your Account
+                                <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"> </i>
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
-        {% endif %}
-        <form action="{{ path('login') }}" method="post" class="">
-            <div class="form-group">
-                <label for="username">
-                    Nom d'utilisateur
-                </label>
-                <input type="text" id="username" name="_username" class="form-control" value="{{ last_username }}">
-            </div>
-            <div class="form-group">
-                <label for="password">
-                    Mot de passe
-                </label>
-                <input type="password" id="password" name="_password" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-primary">Se connecter</button>
-        </form>
-        <a href="{{ path('user.register') }}">S'inscrire</a>
+        </div>
     </div>
-{% endblock %}
-
-{% block javascripts %}
-    {% for message in app.flashes('success') %}
-        <script>
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                onOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
-
-            Toast.fire({
-                icon: 'success',
-                title: '{{ message }}'
-            })
-        </script>
-    {% endfor %}
 {% endblock %}

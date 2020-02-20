@@ -6,6 +6,7 @@ namespace App\Controller\User;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Service\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,14 +23,12 @@ class RegistrationController extends AbstractController
 {
     /**
      * @Route("/register", name="user.register")
-     * @param MailerInterface $mailer
      * @param Request $request
      * @param UserPasswordEncoderInterface $userPasswordEncoder
      * @param EntityManagerInterface $entityManager
      * @return Response
-     * @throws TransportExceptionInterface
      */
-    public function register (MailerInterface $mailer, Request $request, UserPasswordEncoderInterface $userPasswordEncoder, EntityManagerInterface $entityManager) : Response
+    public function register (Mailer $mailer, Request $request, UserPasswordEncoderInterface $userPasswordEncoder, EntityManagerInterface $entityManager) : Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -41,13 +40,7 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $email = (new TemplatedEmail())
-                ->from(new Address('test@test.fr', 'test'))
-                ->to(new Address($user->getEmail(), $user->getUsername()))
-                ->subject('Welcome to meeting planner')
-                ->htmlTemplate('email/welcome.html.twig')
-            ;
-            $mailer->send($email);
+            $mailer->sendWelcomeMessage($user);
 
             $this->addFlash("success", "Vous êtes bien inscrit !");
 

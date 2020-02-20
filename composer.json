@@ -15,7 +15,7 @@
         "symfony/console": "5.0.*",
         "symfony/dotenv": "5.0.*",
         "symfony/expression-language": "5.0.*",
-        "symfony/flex": "^1.3.1",
+        "symfony/flex": "^1.6",
         "symfony/form": "5.0.*",
         "symfony/framework-bundle": "5.0.*",
         "symfony/http-client": "5.0.*",
@@ -43,8 +43,9 @@
         "doctrine/doctrine-fixtures-bundle": "^3.3",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",
+        "symfony/phpunit-bridge": "^5.0",
         "symfony/profiler-pack": "*",
-        "symfony/test-pack": "*",
+        "symfony/test-pack": "^1.0",
         "symfony/web-server-bundle": "4.4.x-dev"
     },
     "config": {

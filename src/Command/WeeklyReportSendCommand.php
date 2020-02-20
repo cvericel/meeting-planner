@@ -4,31 +4,24 @@ namespace App\Command;
 
 use App\Repository\MeetingGuestRepository;
 use App\Repository\MeetingRepository;
+use App\Service\Mailer;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Mailer\Mailer;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
+
 
 class WeeklyReportSendCommand extends Command
 {
     protected static $defaultName = 'app:weekly-report:send';
 
-
-
     private $meetingRepository;
-
     private $meetingGuestRepository;
-    /**
-     * @var Mailer
-     */
     private $mailer;
 
 
-    public function __construct(MeetingRepository $meetingRepository, MeetingGuestRepository $meetingGuestRepository, MailerInterface $mailer)
+    public function __construct(MeetingRepository $meetingRepository, MeetingGuestRepository $meetingGuestRepository, Mailer $mailer)
     {
         parent::__construct(null);
         $this->meetingRepository = $meetingRepository;
@@ -64,16 +57,8 @@ class WeeklyReportSendCommand extends Command
             foreach ($guests as $guest) {
                 $io->progressAdvance();
 
-                // sent mail
-                $email = (new TemplatedEmail())
-                    ->from(new Address("test@test.fr", 'Meeting Planner'))
-                    ->to(new Address($guest->getEmail(), $guest->getUsername()))
-                    ->subject("Meeting is coming !")
-                    ->htmlTemplate('email/weekly-report.html.twig')
-                    ->context([
-                        'meeting' => $meeting
-                    ]);
-                $this->mailer->send($email);
+                $this->mailer->sendWeeklyReportMessage($guest, $meeting);
+
             }
         }
         $io->progressFinish();
