@@ -32,13 +32,13 @@ class UserType extends AbstractType
                         'message' => 'Please enter a password'
                     ]),
                     new Length([
-                        'min' => 6,
+                        'min' => 2,
                         'minMessage' => 'Your password should be at least {{ limit }} characters',
                         'max' => 255
                     ])
                 ]
             ])
-            ->add('button', SubmitType::class)
+            ->add('Register', SubmitType::class)
         ;
     }
 

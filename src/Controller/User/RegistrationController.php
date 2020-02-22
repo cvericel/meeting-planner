@@ -23,6 +23,7 @@ class RegistrationController extends AbstractController
 {
     /**
      * @Route("/register", name="user.register")
+     * @param Mailer $mailer
      * @param Request $request
      * @param UserPasswordEncoderInterface $userPasswordEncoder
      * @param EntityManagerInterface $entityManager
