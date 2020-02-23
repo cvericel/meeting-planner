@@ -6,17 +6,14 @@ namespace App\Controller\Admin;
 
 use App\Entity\Meeting;
 use App\Entity\MeetingDate;
-use App\Form\InvitationType;
 use App\Form\MeetingDateType;
 use App\Form\MeetingType;
-use App\Repository\GuestRepository;
 use App\Repository\MeetingDateRepository;
 use App\Repository\MeetingGuestRepository;
 use App\Repository\MeetingRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -103,16 +100,6 @@ class AdminMeetingController extends AbstractController
             ])
         ]);
         $date_form->handleRequest($request);
-
-        /**
-         * Ajout de nouvelle date via AJAX
-         */
-        if ($date_form->isSubmitted() && $date_form->isValid()) {
-            $meeting_date->setMeeting($meeting);
-            $this->entityManager->persist($meeting_date);
-            $this->entityManager->flush();
-            $this->addFlash('success', 'Date ajouté');
-        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->flush();

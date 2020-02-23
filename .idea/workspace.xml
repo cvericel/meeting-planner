@@ -2,24 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4332e9a6-bdb1-4750-abda-788472085b76" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/config/packages/messenger.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/services_dev.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/EnvelopeListener/SetFromListener.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/Controller/RegistrationControllerTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env.test" beforeDir="false" afterPath="$PROJECT_DIR$/.env.test" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Reunion.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Reunion.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/play.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/app.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/User/RegistrationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/User/RegistrationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/UserType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/UserType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/Mailer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Mailer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/meeting/__meeting_date_card.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/meeting/__meeting_date_card.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Service/MailerTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Service/MailerTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/MeetingDate.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/MeetingDate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/AdminMeetingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/AdminMeetingController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/AdminMeetingDateController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/AdminMeetingDateController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -225,7 +212,7 @@
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -314,7 +301,8 @@
       <workItem from="1582316344480" duration="672000" />
       <workItem from="1582323573129" duration="486000" />
       <workItem from="1582378448432" duration="1215000" />
-      <workItem from="1582379730456" duration="7144000" />
+      <workItem from="1582379730456" duration="7333000" />
+      <workItem from="1582454177410" duration="6544000" />
     </task>
     <servers />
   </component>
@@ -419,23 +407,23 @@
     </state>
     <state x="538" y="358" key="NewPhpFileDialog/0.23.1440.814@0.23.1440.814" timestamp="1577918829523" />
     <state x="538" y="359" key="NewPhpFileDialog/0.23.1440.816@0.23.1440.816" timestamp="1578175300146" />
-    <state x="221" y="68" key="SettingsEditor" timestamp="1582381531728">
+    <state x="221" y="68" key="SettingsEditor" timestamp="1582454595938">
       <screen x="0" y="23" width="1440" height="816" />
     </state>
     <state x="221" y="68" key="SettingsEditor/0.23.1440.812@0.23.1440.812" timestamp="1577833622321" />
     <state x="221" y="68" key="SettingsEditor/0.23.1440.814@0.23.1440.814" timestamp="1582230613303" />
-    <state x="221" y="68" key="SettingsEditor/0.23.1440.816@0.23.1440.816" timestamp="1582381531728" />
+    <state x="221" y="68" key="SettingsEditor/0.23.1440.816@0.23.1440.816" timestamp="1582454595938" />
     <state x="-23" y="42" key="SettingsEditor/0.23.1440.821@0.23.1440.821" timestamp="1581287450066" />
     <state width="730" height="445" key="SwitcherDM" timestamp="1578833083790">
       <screen x="0" y="23" width="1440" height="822" />
     </state>
     <state width="730" height="445" key="SwitcherDM/0.23.1440.822@0.23.1440.822" timestamp="1578833083790" />
-    <state x="397" y="262" key="com.intellij.ide.util.TipDialog" timestamp="1582379732092">
+    <state x="397" y="262" key="com.intellij.ide.util.TipDialog" timestamp="1582454177374">
       <screen x="0" y="23" width="1440" height="816" />
     </state>
     <state x="397" y="261" key="com.intellij.ide.util.TipDialog/0.23.1440.812@0.23.1440.812" timestamp="1581455543683" />
     <state x="397" y="262" key="com.intellij.ide.util.TipDialog/0.23.1440.814@0.23.1440.814" timestamp="1582316347503" />
-    <state x="397" y="262" key="com.intellij.ide.util.TipDialog/0.23.1440.816@0.23.1440.816" timestamp="1582379732092" />
+    <state x="397" y="262" key="com.intellij.ide.util.TipDialog/0.23.1440.816@0.23.1440.816" timestamp="1582454177373" />
     <state x="397" y="262" key="com.intellij.ide.util.TipDialog/0.23.1440.821@0.23.1440.821" timestamp="1581851032920" />
     <state x="397" y="263" key="com.intellij.ide.util.TipDialog/0.23.1440.822@0.23.1440.822" timestamp="1582323573030" />
     <state x="397" y="263" key="com.intellij.ide.util.TipDialog/0.23.1440.823@0.23.1440.823" timestamp="1578869937847" />

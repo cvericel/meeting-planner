@@ -1,74 +1,76 @@
 (function (window, $, swal) {
-    window.MeetingDate = function ($wrapper, $datepicker, $timepicker) {
-        this.$wrapper = $wrapper;
-        this.$datepicker = $datepicker;
-        this.$timepicker = $timepicker;
-        this.helper = new Helper(this.$wrapper);
+    class MeetingDate {
 
-        //Delete meeting date event listener
-        this.$wrapper.on(
-            'click',
-            '.js-delete-meeting-date',
-            this.meetingDateDelete.bind(this)
-        );
+        constructor($wrapper, $datepicker, $timepicker) {
+            this.$wrapper = $wrapper;
+            this.$datepicker = $datepicker;
+            this.$timepicker = $timepicker;
+            this.helper = new Helper(this.$wrapper);
 
-        //Add meeting date event listener
-        this.$wrapper.on(
-            'submit',
-            '.js-new-meeting-date-form',
-            this.meetingDateAdd.bind(this)
-        );
-
-        //Add jQuery datepicker
-        this.$datepicker.datetimepicker({
-            timepicker:false,
-            format:'Y-m-d',
-            inline: true
-        });
-
-        //Add jQuery timepicker
-        this.$timepicker.datetimepicker({
-            datepicker: false,
-            format: 'H:i',
-            inline: true
-        });
-    };
-
-    $.extend(MeetingDate.prototype, {
-        updateNumberOfMeetingDate: function () {
-            this.$wrapper.find('.js-number-of-meeting').html(
-                this.helper.calculateNumberOfMeetingDate()
+            //Delete meeting date event listener
+            this.$wrapper.on(
+                'click',
+                '.js-delete-meeting-date',
+                this.meetingDateDelete.bind(this)
             );
-        },
-        meetingDateAdd: function (e) {
+
+            //Add meeting date event listener
+            this.$wrapper.on(
+                'submit',
+                '.js-new-meeting-date-form',
+                this.meetingDateAdd.bind(this)
+            );
+
+            //Add jQuery datepicker
+            this.$datepicker.datetimepicker({
+                timepicker:false,
+                format:'Y-m-d',
+                inline: true
+            });
+
+            //Add jQuery timepicker
+            this.$timepicker.datetimepicker({
+                datepicker: false,
+                format: 'H:i',
+                inline: true
+            });
+        }
+
+        updateNumberOfMeetingDate() {
+            this.$wrapper.find('.js-number-of-meeting').html(
+                this.helper.getNumberOfMeetingDateString()
+            );
+        }
+        meetingDateAdd(e) {
             e.preventDefault();
 
-            let $form = $(e.currentTarget);
-            let $tbody = this.$wrapper.find('tbody.js-tbody-delete-meeting-date');
-            let $modalForm = this.$wrapper.find('.js-modal-meeting-date-form');
-            let self = this;
+            const $form = $(e.currentTarget);
+            const $tbody = this.$wrapper.find('tbody.js-tbody-delete-meeting-date');
+            const $modalForm = this.$wrapper.find('.js-modal-meeting-date-form');
+
+            const url = $form.attr('action');
 
             $.ajax({
-                url: $form.attr('action'),
+                url,
                 method: 'POST',
                 data: $form.serialize(),
-            }).then(function (data) {
+            }).then(data => {
                 $modalForm.modal('hide');
                 $tbody.prepend(data);
-                self.updateNumberOfMeetingDate();
+                this.updateNumberOfMeetingDate();
                 // reset datetimepicker
-                self.$datepicker.datetimepicker('reset');
-                self.$timepicker.datetimepicker('reset');
-            }).catch(function (jqXHR) {
+                this.$datepicker.datetimepicker('reset');
+                this.$timepicker.datetimepicker('reset');
+            }).catch(jqXHR => {
                 $form.closest('.js-new-meeting-date-form-wrapper')
                     .html(jqXHR.responseText);
             });
-        },
-        meetingDateDelete: function (e) {
+        }
+
+        meetingDateDelete(e) {
             e.preventDefault();
 
-            let $target = $(e.currentTarget);
-            let self = this;
+            const $target = $(e.currentTarget);
             swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -78,52 +80,70 @@
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, delete it!',
                 showLoaderOnConfirm: true,
-                preConfirm: function () {
-                    return self._deleteMeetingDate($target);
-                }
+                preConfirm: () => this._deleteMeetingDate($target)
             }).then((result) => {
 
             })
-        },
-        _deleteMeetingDate: function ($target) {
+        }
+
+        _deleteMeetingDate($target) {
             $target.find('.fa')
                 .removeClass('fa-trash')
                 .addClass('fa-spinner')
                 .addClass('fa-spin');
 
-            let deleteUrl = $target.data('url');
-            let $row = $target.closest('tr');
-            let self = this;
+            const deleteUrl = $target.data('url');
+            const $row = $target.closest('tr');
 
             //Delete meeting date with AJAX
             return $.ajax({
                 url: deleteUrl,
                 method: "DELETE"
-            }).then(function () {
-                $row.fadeOut('normal', function () {
+            }).then(() => {
+                $row.fadeOut('normal', () => {
                     $row.remove();
-                    self.updateNumberOfMeetingDate();
+                    this.updateNumberOfMeetingDate();
                 });
             });
         }
-    });
+    }
 
 
     /**
-     * A "private" object
+     * A "private" class
      *
      */
-    let Helper = function ($wrapper) {
-        this.$wrapper = $wrapper;
-    };
-    $.extend(Helper.prototype, {
-        calculateNumberOfMeetingDate: function () {
+    class Helper {
+        constructor($wrapper) {
+            this.$wrapper = $wrapper;
+        }
+
+        getNumberOfMeetingDateString(maxDate = 10) {
+            let totalDate = this.calculateNumberOfMeetingDate();
+
+            if (totalDate > maxDate) {
+                totalDate = maxDate + '+';
+            }
+
+            return totalDate + ' date';
+        }
+        
+        calculateNumberOfMeetingDate() {
+            return Helper._calculateNumberOfMeetingDate(
+                this.$wrapper.find('tbody.js-tbody-delete-meeting-date tr')
+            );
+        }
+
+        static _calculateNumberOfMeetingDate($element) {
             let numberMeetingDate = 0;
-            this.$wrapper.find('tbody.js-tbody-delete-meeting-date tr').each(function () {
+
+            $element.each(() => {
                 numberMeetingDate++;
             });
 
             return numberMeetingDate;
         }
-    });
+    }
+
+    window.MeetingDate = MeetingDate;
 })(window, jQuery, swal);

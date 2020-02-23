@@ -3,14 +3,12 @@
 namespace App\Controller\Admin;
 
 
-use App\Entity\Availability;
 use App\Entity\MeetingDate;
 use App\Form\MeetingDateType;
 use App\Repository\AvailabilityRepository;
 use App\Repository\MeetingGuestRepository;
 use App\Repository\MeetingRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,37 +36,6 @@ class AdminMeetingDateController extends AbstractController
         $this->security = $security;
         $this->meetingGuestRepository = $meetingGuestRepository;
         $this->availabilityRepository = $availabilityRepository;
-    }
-
-    /**
-     * @Route("/{id}", name="admin.meeting_date")
-     * @param Request $request
-     * @param $id_meeting
-     * @return Response
-     */
-    public function view(Request $request, $id_meeting, MeetingDate $meetingDate, MeetingRepository $meetingRepository): Response
-    {
-        $meeting = $meetingRepository->findOneBy(['id' => $id_meeting]);
-        if ($this->security->getUser() === $meeting->getUser()) {
-            if ($request->isXmlHttpRequest()) {
-                // Get the meeting
-                // Test if the user is the author
-                dump($this->security->getUser());
-                dump($meeting->getUser());
-
-                $this->entityManager->persist($meeting);
-                $meeting->setChosenDate($meetingDate);
-                $this->entityManager->flush();
-                return new Response("", 200);
-                //TODO sent mail
-            } else {
-                return $this->render('admin/meeting_date/index.html.twig', [
-                    'meeting_dates' => $meetingDate
-                ]);
-            }
-        } else {
-            return $this->render('error/forbidden.html.twig');
-        }
     }
 
     /**
@@ -111,7 +78,7 @@ class AdminMeetingDateController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin.meeting_date.delete", methods={"DELETE"})
+     * @Route("/delete-{id}", name="admin.meeting_date.delete", methods={"DELETE"})
      * @param MeetingDate $meetingDate
      * @return Response
      */
@@ -131,5 +98,34 @@ class AdminMeetingDateController extends AbstractController
         return new Response(null, 403);
     }
 
+    /**
+     * @Route("/{id}", name="admin.meeting_date")
+     * @param Request $request
+     * @param $id_meeting
+     * @param MeetingDate $meetingDate
+     * @param MeetingRepository $meetingRepository
+     * @return Response
+     */
+    public function view(Request $request, $id_meeting, MeetingDate $meetingDate, MeetingRepository $meetingRepository): Response
+    {
+        $meeting = $meetingRepository->findOneBy(['id' => $id_meeting]);
+        if ($this->security->getUser() === $meeting->getUser()) {
+            if ($request->isXmlHttpRequest()) {
+                // Get the meeting
+                // Test if the user is the author
 
+                $this->entityManager->persist($meeting);
+                $meeting->setChosenDate($meetingDate);
+                $this->entityManager->flush();
+                return new Response("", 200);
+                //TODO sent mail
+            } else {
+                return $this->render('admin/meeting_date/index.html.twig', [
+                    'meeting_dates' => $meetingDate
+                ]);
+            }
+        } else {
+            return $this->render('error/forbidden.html.twig');
+        }
+    }
 }
