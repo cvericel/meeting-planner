@@ -88,31 +88,7 @@
         </div>
         <div class="owl-carousel mt-5">
             {% for date in meeting_date_list %}
-                <div class="card mb-3" style="max-width: 540px;">
-                    <div class="row no-gutters">
-                        <div class="col-md-4">
-                            <img src="{{ uploaded_asset(date.meeting.user.imagePath) | imagine_filter('square150') }}" class="card-img" alt="">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title">The {{ date.day | date('d m Y')  }}</h5>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <h6 class="border-right">Start at</h6>
-                                        <span>{{ date.startAt | date('H:i') }}</span>
-                                    </div>
-                                    <div class="col-6">
-                                        <h6>End at</h6>
-                                        <span>{{ date.endAt | date('H:i') }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            {{ date.disposable.count }}
-                            <a href="{{ path('admin.meeting_date', {id_meeting: date.meeting.id, id: date.id}) }}">test</a>
-                        </div>
-                    </div>
-                </div>
+                {{ include('admin//meeting/__meetingDateRow.html.twig') }}
             {% endfor %}
         </div>
     </div>

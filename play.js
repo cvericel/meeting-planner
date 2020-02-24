@@ -1,12 +1,25 @@
-const a = 10;
+class AGreatClass {
+    constructor(greatNumber) {
+        this.greatNumber = greatNumber
+    }
 
-if (true) {
-    const a = 42;
+    returnGreatThings() {
+        return this.greatNumber
+    }
 }
 
+class AnotherGreatClass extends AGreatClass {
+    constructor(greatNumber, greatWord) {
+        super(greatNumber);
+        this.greatWord = greatWord;
+    }
 
-setTimeout(() => {
-    console.log(a);
-}, 100);
+    returnGreatThings() {
+        return [this.greatNumber, this.greatWord];
+    }
+}
 
-console.log("waiting...");
+const aGreatObject = new AnotherGreatClass(32, "bite");
+console.log(
+    aGreatObject.returnGreatThings()
+);

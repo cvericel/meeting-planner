@@ -1,11 +1,13 @@
 (function (window, $, swal) {
-    class MeetingDate {
+    /* Private class */
+    let HelperInstance = new WeakMap();
 
+    class MeetingDate {
         constructor($wrapper, $datepicker, $timepicker) {
             this.$wrapper = $wrapper;
             this.$datepicker = $datepicker;
             this.$timepicker = $timepicker;
-            this.helper = new Helper(this.$wrapper);
+            HelperInstance.set(this, new Helper(this.$wrapper));
 
             //Delete meeting date event listener
             this.$wrapper.on(
@@ -38,7 +40,7 @@
 
         updateNumberOfMeetingDate() {
             this.$wrapper.find('.js-number-of-meeting').html(
-                this.helper.getNumberOfMeetingDateString()
+                HelperInstance.get(this).getNumberOfMeetingDateString()
             );
         }
         meetingDateAdd(e) {
@@ -81,9 +83,7 @@
                 confirmButtonText: 'Yes, delete it!',
                 showLoaderOnConfirm: true,
                 preConfirm: () => this._deleteMeetingDate($target)
-            }).then((result) => {
-
-            })
+            });
         }
 
         _deleteMeetingDate($target) {
@@ -108,11 +108,6 @@
         }
     }
 
-
-    /**
-     * A "private" class
-     *
-     */
     class Helper {
         constructor($wrapper) {
             this.$wrapper = $wrapper;
@@ -127,17 +122,17 @@
 
             return totalDate + ' date';
         }
-        
+
         calculateNumberOfMeetingDate() {
             return Helper._calculateNumberOfMeetingDate(
                 this.$wrapper.find('tbody.js-tbody-delete-meeting-date tr')
             );
         }
 
-        static _calculateNumberOfMeetingDate($element) {
+        static _calculateNumberOfMeetingDate($elements) {
             let numberMeetingDate = 0;
 
-            $element.each(() => {
+            $elements.each(() => {
                 numberMeetingDate++;
             });
 

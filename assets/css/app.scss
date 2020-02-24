@@ -39,6 +39,24 @@
   }
 }
 
+.left_border {
+  border-right: black 3px solid;
+}
 
+.date {
+  border-top: black 1px solid;
+  padding-top: 5px;
 
+  &_hour {
+    margin-top: -0.5cm;
+    color: black;
+  }
+  &_title {
+    font-weight: bold;
+    color: black;
+  }
+}
 
+.chosen-date {
+
+}

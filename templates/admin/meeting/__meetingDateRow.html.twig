@@ -1,0 +1,28 @@
+<div class="card mb-3 {% if date == meeting.chosenDate %}chosen-date{% else %}bg-white{% endif %}" style="max-width: 18rem;" id="{{ date.day | date('Y-m-d') }}__{{ date.startAt | date('H:i') }}">
+    <div class="card-header">
+        <div>
+            <a href="#"
+               class="text-danger js-delete-meeting-date pull-right"
+               data-url="{{ path('admin.meeting_date.delete', {id_meeting: date.meeting.id, id: date.id}) }}"
+            >
+                <span class="fa fa-times"> </span>
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">The {{ date.day | date('F jS') }}</h5>
+        <div class="row date">
+            <div class="col-6 text-center left_border">
+                <p class="card-text date_title"><strong>Start at</strong></p>
+                <p class="card-text date_hour">{{ date.startAt | date('H:i') }}</p>
+            </div>
+            <div class="col-6 text-center">
+                <p class="card-text date_title"><strong>End at</strong></p>
+                <p class="card-text date_hour">{{ date.endAt | date('H:i') }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer text-center">
+        <a href="#" class="card-text">{{ date.availabilities| length }} people disposable</a>
+    </div>
+</div>
