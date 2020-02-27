@@ -1,0 +1,14 @@
+<div class="mt-5">
+    {{ form_start(form) }}
+        <div class="row mt-5">Title
+                {{ form_widget(form.title) }}
+        </div>
+        <div class="row mt-4">Description
+                {{ form_widget(form.description) }}
+        </div>
+        <div class="row mt-3">
+                <button class="btn btn-info" type="submit">Valider</button>
+        </div>
+    {{ form_end(form) }}
+
+</div>

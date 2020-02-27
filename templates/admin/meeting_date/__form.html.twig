@@ -10,16 +10,13 @@
                 {{ form_start(date_form, {
                     'attr': {
                         'class': 'form-inline js-new-meeting-date-form'
-                    }
-                })
+                    }})
                 }}
                 <div class="form-group">
-                    {{ form_widget(date_form.day,
-                        {
+                    {{ form_widget(date_form.day,{
                             'attr': {
                                 'class': 'js-datetime-picker'
-                        }
-                        })
+                        }})
                     }}
                 </div>
                 <div class="form-group">
