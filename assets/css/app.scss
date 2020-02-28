@@ -39,24 +39,43 @@
   }
 }
 
-.left_border {
-  border-right: black 3px solid;
-}
 
-.date {
-  border-top: black 1px solid;
-  padding-top: 5px;
+.meeting-date-card {
+  border-radius: 0 18px 18px 0 ;
+  border-left: darkcyan 8px solid;
+  // Box shadow generator
+  width: 1000px;
 
-  &_hour {
-    margin-top: -0.5cm;
-    color: black;
+  .header {
+    background: white;
   }
-  &_title {
+
+  .title {
     font-weight: bold;
-    color: black;
+    font-size: 18pt;
+    text-align: center;
+    margin-bottom: 20px;
   }
-}
 
-.chosen-date {
+  .trash {
+    margin-top: -0.4cm;
+    margin-right: -0.25cm;
+  }
 
+  .left_border {
+    border-right: black 3px solid;
+  }
+
+  .date {
+    padding-top: 5px;
+
+    &_hour {
+      margin-top: -0.5cm;
+      color: black;
+    }
+    &_title {
+      font-weight: bold;
+      color: black;
+    }
+  }
 }

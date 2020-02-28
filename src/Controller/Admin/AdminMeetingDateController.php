@@ -60,8 +60,8 @@ class AdminMeetingDateController extends AbstractController
                 $meeting_date->setMeeting($meeting);
                 $this->entityManager->flush();
 
-                return $this->render('admin/meeting/__meetingRow.html.twig', [
-                    'dates' => $meeting_date,
+                return $this->render('admin/meeting/__meetingDateRow.html.twig', [
+                    'date' => $meeting_date,
                     'meeting' => $meeting
                 ]);
 
@@ -88,9 +88,9 @@ class AdminMeetingDateController extends AbstractController
         $authUser = $this->security->getUser()->getId();
         $user = $meetingDate->getMeeting()->getUser()->getId();
         if ($user == $authUser) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($meetingDate);
-            $entityManager->flush();
+            //$entityManager = $this->getDoctrine()->getManager();
+            //$entityManager->remove($meetingDate);
+            //$entityManager->flush();
 
             return new Response(null, 204);
         }

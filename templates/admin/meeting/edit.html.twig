@@ -10,43 +10,7 @@
     <div class="container mt-4">
         <h1>Editez la reunion</h1>
         <div class="jumbotron row">
-            <div class="col-12 col-md-6">
-                <div class="container js-meeting-date-table">
-                    <h2>
-                        Dates de reunion
-                        <a href="#" class="btn btn-md btn-success pull-right" data-toggle="modal" data-target="#dataModal">
-                            <span class="fa fa-plus"></span> Add
-                        </a>
-                    </h2>
-                    {{ include('admin/meeting_date/__form.html.twig', {meeting_id: meeting.id}) }}
-                    <div class="row js-new-meeting-date-form-wrapper" id="dataModal"></div>
-                    <div class="row">
-                        <table class="table table-stripped">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th colspan="4" class="text-right">Nombre de date:
-                                        <span class="js-number-of-meeting">
-                                            {{ meeting_date_list|length }}
-                                        </span>
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th scope="col">Day</th>
-                                    <th scope="col">Start at</th>
-                                    <th scope="col">End at</th>
-                                    <th scope="col">&nbsp;</th>
-                                </tr>
-                            </thead>
-                            <tbody id="date_table" class="js-tbody-delete-meeting-date">
-                                {% for dates in meeting_date_list %}
-                                    {{ include('admin/meeting/__meetingRow.html.twig') }}
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-             </div>
-            <div class="col-md-6 col-12 js-meeting-guest">
+            <div class="js-meeting-guest">
                 <form action="{{ path('admin.meeting_guest.add', {id_meeting: meeting.id}) }}" method="post" class="js-add-meeting-guest">
                     <div class="input-group mb-3 js-add-people-text">
                         <input type="text"
@@ -86,10 +50,19 @@
                 </table>
             </div>
         </div>
-        <div class="owl-carousel mt-5">
-            {% for date in meeting_date_list %}
-                {{ include('admin//meeting/__meetingDateRow.html.twig') }}
-            {% endfor %}
+        <div class="js-meeting-date-wrapper">
+            <h2>Add new meeting date !
+                <a href="#" class="btn btn-md btn-success pull-right" data-toggle="modal" data-target="#dataModal">
+                    <span class="fa fa-plus"></span> Add
+                </a>
+            </h2>
+            {{ include('admin/meeting_date/__form.html.twig', {meeting_id: meeting.id}) }}
+            <div class="row js-new-meeting-date-form-wrapper" id="dataModal"></div>
+            <div class="owl-carousel mt-5 js-meeting-date-carousel">
+                {% for date in meeting_date_list %}
+                    {{ include('admin//meeting/__meetingDateRow.html.twig') }}
+                {% endfor %}
+            </div>
         </div>
     </div>
     
@@ -100,23 +73,17 @@
     <script src="{{ asset('js/jquery.datetimepicker.full.min.js') }}"></script>
     <script src="{{ asset('js/MeetingGuest.js') }}"></script>
     <script type="text/javascript">
+        $carousel = $('.owl-carousel');
+
         $(function () {
-            let $meetingDateWrapper = $('.js-meeting-date-table');
+            let $meeting_wrapper = $('.js-meeting-date-wrapper');
             let $datePicker = $('.js-datetime-picker');
             let $timePicker = $('.js-time-picker');
-            new MeetingDate($meetingDateWrapper, $datePicker, $timePicker);
+            new MeetingDate($meeting_wrapper, $datePicker, $timePicker, $carousel);
 
             let $meetingGuestWrapper = $('.js-meeting-guest');
             new MeetingGuest($meetingGuestWrapper);
         });
-
-        $('.owl-carousel').owlCarousel({
-            items:2,
-            loop:false,
-            margin:10,
-            autoHeight: true,
-            autoWidth:true
-        })
     </script>
 {% endblock %}
 

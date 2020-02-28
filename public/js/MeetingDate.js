@@ -1,12 +1,14 @@
-(function (window, $, swal) {
+(function (window, $, swal, owlcarousel) {
     /* Private class */
     let HelperInstance = new WeakMap();
 
     class MeetingDate {
-        constructor($wrapper, $datepicker, $timepicker) {
+        constructor($wrapper, $datepicker, $timepicker, $carousel) {
             this.$wrapper = $wrapper;
             this.$datepicker = $datepicker;
             this.$timepicker = $timepicker;
+            this.$carousel = $carousel;
+
             HelperInstance.set(this, new Helper(this.$wrapper));
 
             //Delete meeting date event listener
@@ -36,8 +38,29 @@
                 format: 'H:i',
                 inline: true
             });
+
+            this.$carousel.owlCarousel({
+                margin:20,
+                autoWidth: true,
+                responsiveClass:true,
+                responsive : {
+                    0 : {
+                        items : 1
+                    },
+                    480 : {
+                        items : 1,
+                        center: true
+                    },
+                    768 : {
+                        items : 1,
+                    }
+                },
+                loop:false,
+                autoHeight: true,
+            });
         }
 
+        //a faire
         updateNumberOfMeetingDate() {
             this.$wrapper.find('.js-number-of-meeting').html(
                 HelperInstance.get(this).getNumberOfMeetingDateString()
@@ -47,9 +70,7 @@
             e.preventDefault();
 
             const $form = $(e.currentTarget);
-            const $tbody = this.$wrapper.find('tbody.js-tbody-delete-meeting-date');
             const $modalForm = this.$wrapper.find('.js-modal-meeting-date-form');
-
             const url = $form.attr('action');
 
             $.ajax({
@@ -58,7 +79,12 @@
                 data: $form.serialize(),
             }).then(data => {
                 $modalForm.modal('hide');
-                $tbody.prepend(data);
+                console.log(this.$carousel);
+                this.$carousel
+                    .trigger('add.owl.carousel', data, 0)
+                    .trigger('refresh.owl.carousel');
+                console.log(this.$carousel);
+
                 this.updateNumberOfMeetingDate();
                 // reset datetimepicker
                 this.$datepicker.datetimepicker('reset');
@@ -71,7 +97,7 @@
 
         meetingDateDelete(e) {
             e.preventDefault();
-
+            console.log(e);
             const $target = $(e.currentTarget);
             swal.fire({
                 title: 'Are you sure?',
@@ -93,17 +119,18 @@
                 .addClass('fa-spin');
 
             const deleteUrl = $target.data('url');
-            const $row = $target.closest('tr');
+            const $item = $target.closest('.owl-item');
 
             //Delete meeting date with AJAX
             return $.ajax({
                 url: deleteUrl,
                 method: "DELETE"
             }).then(() => {
-                $row.fadeOut('normal', () => {
-                    $row.remove();
-                    this.updateNumberOfMeetingDate();
-                });
+
+                this.updateNumberOfMeetingDate();
+                this.$carousel.trigger('remove.owl.carousel', $item.index());
+                this.$carousel.trigger('refresh.owl.carousel')
+
             });
         }
     }
