@@ -128,4 +128,22 @@ class AdminMeetingDateController extends AbstractController
             return $this->render('error/forbidden.html.twig');
         }
     }
+
+    /**
+     * @Route("/{id}/view-availability", name="admin.meeting_date.view_availability", methods={"POST"})
+     * @param MeetingDate $meetingDate
+     * @return Response
+     */
+    public function viewAvailability(MeetingDate $meetingDate)
+    {
+        if($this->security->getUser() === $meetingDate->getMeeting()->getUser()) {
+            return $this->render('admin/meeting_date/__availabityList.html.twig', [
+                'date_availability' => $meetingDate->getAvailabilities()
+            ]);
+        } else {
+            return new Response("", 400);
+        }
+
+    }
+
 }

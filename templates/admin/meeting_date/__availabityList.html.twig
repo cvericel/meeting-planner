@@ -1,0 +1,8 @@
+{% for availabity in date_availability %}
+    <p><strong>{{ availabity.meetingGuest.email }}</strong> is
+        {% if not availabity.choice %}
+            not
+        {% endif %}
+        disponable
+    </p>
+{% endfor %}

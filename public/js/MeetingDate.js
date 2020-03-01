@@ -25,6 +25,12 @@
                 this.meetingDateAdd.bind(this)
             );
 
+            this.$wrapper.on(
+              'click',
+              '.js-meeting-date-view-availability',
+              this.meetingDateViewAvailabity.bind(this)
+            );
+
             //Add jQuery datepicker
             this.$datepicker.datetimepicker({
                 timepicker:false,
@@ -97,7 +103,6 @@
 
         meetingDateDelete(e) {
             e.preventDefault();
-            console.log(e);
             const $target = $(e.currentTarget);
             swal.fire({
                 title: 'Are you sure?',
@@ -132,6 +137,30 @@
                 this.$carousel.trigger('refresh.owl.carousel')
 
             });
+        }
+
+        meetingDateViewAvailabity(e) {
+            e.preventDefault();
+            const $target = $(e.currentTarget);
+            const url = $target.data('url');
+
+            $.ajax({
+                url: url,
+                method: "POST"
+            }).then((data) => {
+                swal.fire({
+                    title: '<strong>Availability list</strong>',
+                    icon: 'info',
+                    html: data,
+                    showCloseButton: true,
+                    showCancelButton: true,
+                    focusConfirm: false,
+                    confirmButtonText: '<i class="fa fa-thumbs-up"> </i> Great!',
+                    confirmButtonAriaLabel: 'Thumbs up, great!',
+                    cancelButtonText:'<i class="fa fa-thumbs-down"> </i>',
+                    cancelButtonAriaLabel: 'Thumbs down'
+                });
+            })
         }
     }
 
