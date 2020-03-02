@@ -1,11 +1,27 @@
 <div class="card mb-3 js-meeting-date-card meeting-date-card {% if date == meeting.chosenDate %}chosen-date{% else %}bg-white{% endif %}" style="max-width: 18rem;" id="{{ date.day | date('Y-m-d') }}__{{ date.startAt | date('H:i') }}">
     <div class="card-body">
-        <a href="#"
-           class="text-danger js-delete-meeting-date pull-right trash"
-           data-url="{{ path('admin.meeting_date.delete', {id_meeting: date.meeting.id, id: date.id}) }}"
-        >
-            <span class="fa fa-trash fa-lg"> </span>
-        </a>
+        <div class="pull-right trash">
+            <div class="row">
+                {% if not meeting.chosenDate %}
+                    <a href="#"
+                       class="text-success js-choose-meeting-date "
+                       data-url="{{ path('admin.meeting_date.choose', {id_meeting: date.meeting.id, id: date.id}) }}"
+                    >
+                        <span class="fa fa-arrow-up fa-lg"> </span>
+                    </a>
+                {% endif %}
+            </div>
+            <div class="row">
+                {% if not meeting.chosenDate %}
+                    <a href="#"
+                       class="text-danger js-delete-meeting-date "
+                       data-url="{{ path('admin.meeting_date.delete', {id_meeting: date.meeting.id, id: date.id}) }}"
+                    >
+                        <span class="fa fa-trash fa-lg"> </span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
         <h5 class="title">The {{ date.day | date('F jS') }}</h5>
         <div class="row date">
             <div class="col-6 text-center left_border">

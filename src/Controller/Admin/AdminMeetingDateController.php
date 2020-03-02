@@ -8,6 +8,7 @@ use App\Form\MeetingDateType;
 use App\Repository\AvailabilityRepository;
 use App\Repository\MeetingGuestRepository;
 use App\Repository\MeetingRepository;
+use App\Service\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -140,10 +141,40 @@ class AdminMeetingDateController extends AbstractController
             return $this->render('admin/meeting_date/__availabityList.html.twig', [
                 'date_availability' => $meetingDate->getAvailabilities()
             ]);
-        } else {
-            return new Response("", 400);
         }
 
+        return new Response("", 400);
+    }
+
+    /**
+     * @Route("/{id}/choose", name="admin.meeting_date.choose", methods={"POST"})
+     * @param MeetingDate $meetingDate
+     * @param Mailer $mailer
+     * @return Response
+     */
+    public function choosenFinalMeetingDate(MeetingDate $meetingDate, Mailer $mailer)
+    {
+        if ($this->security->getUser() === $meetingDate->getMeeting()->getUser()) {
+            // On récupere le date en cours
+            $meeting = $meetingDate->getMeeting();
+
+            if ($meeting->getChosenDate() === null) {
+                $this->entityManager->persist($meeting);
+                $meeting->setChosenDate($meetingDate);
+
+                // Envoie du mail au invité de la reunion
+                foreach ($meeting->getMeetingGuests() as $guest)
+                {
+                    $mailer->sendMeetingDateChoosen($guest, $meetingDate);
+                }
+
+                return new Response("success", 200);
+            } else {
+                return new Response("", 401);
+            }
+        }
+
+        return new Response("", 400);
     }
 
 }

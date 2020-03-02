@@ -5,6 +5,7 @@ namespace App\Service;
 
 
 use App\Entity\Meeting;
+use App\Entity\MeetingDate;
 use App\Entity\MeetingGuest;
 use App\Entity\User;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -43,4 +44,17 @@ class Mailer
             ]);
         $this->mailer->send($email);
     }
+
+    public function sendMeetingDateChoosen(MeetingGuest $guest, MeetingDate $meetingDate)
+    {
+        $email = (new TemplatedEmail())
+            ->to(new Address($guest->getEmail(), $guest->getUsername()))
+            ->subject("A date has been fixed !")
+            ->htmlTemplate('email/chosen_meeting_date.html.twig')
+            ->context([
+                'date' => $meetingDate
+            ]);
+        $this->mailer->send($email);
+    }
+
 }

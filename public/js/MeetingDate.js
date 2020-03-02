@@ -31,6 +31,12 @@
               this.meetingDateViewAvailabity.bind(this)
             );
 
+            this.$wrapper.on(
+                'click',
+                '.js-choose-meeting-date',
+                this.meetingDateChoose.bind(this)
+            );
+
             //Add jQuery datepicker
             this.$datepicker.datetimepicker({
                 timepicker:false,
@@ -144,6 +150,7 @@
             const $target = $(e.currentTarget);
             const url = $target.data('url');
 
+
             $.ajax({
                 url: url,
                 method: "POST"
@@ -161,6 +168,57 @@
                     cancelButtonAriaLabel: 'Thumbs down'
                 });
             })
+        }
+
+        meetingDateChoose(e) {
+            e.preventDefault();
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'error',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, choose this date!'
+            }).then((result) => {
+                if (result.value) {
+                    const $target = $(e.currentTarget);
+                    const url = $target.data('url');
+
+                    $.ajax({
+                        url: url,
+                        method: "POST"
+                    }).then((data) => {
+                        let $resultBlock = $('.js-chosen-meeting-date');
+                        $resultBlock.append(data);
+
+                        //print success message for user
+                        let timerInterval;
+                        Swal.fire({
+                            title: 'Meeting date choose !',
+                            icon: 'success',
+                            html: 'People in meeting will receive confirmation email.',
+                            timer: 3000,
+                            timerProgressBar: true,
+                            onBeforeOpen: () => {
+                                timerInterval = setInterval(() => {
+                                    const content = Swal.getContent();
+                                    if (content) {
+                                        const b = content.querySelector('b');
+                                        if (b) {
+                                            b.textContent = Swal.getTimerLeft();
+                                        }
+                                    }
+                                }, 100)
+                            },
+                            onClose: () => {
+                                clearInterval(timerInterval);
+                            }
+                        });
+                    });
+                }
+            });
         }
     }
 

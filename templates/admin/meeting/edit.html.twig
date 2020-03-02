@@ -10,7 +10,7 @@
     <div class="container mt-4">
         <h1>Editez la reunion</h1>
         <div class="jumbotron row">
-            <div class="js-meeting-guest">
+            <div class="js-meeting-guest col-6">
                 <form action="{{ path('admin.meeting_guest.add', {id_meeting: meeting.id}) }}" method="post" class="js-add-meeting-guest">
                     <div class="input-group mb-3 js-add-people-text">
                         <input type="text"
@@ -31,8 +31,8 @@
                     <tr>
                         <th colspan="4" class="text-right">Number of guest:
                             <span class="js-number-of-meeting">
-                                            {{ meeting_date_guest_list|length}}
-                                        </span>
+                                {{ meeting_date_guest_list|length}}
+                            </span>
                         </th>
                     </tr>
                     <tr>
@@ -48,6 +48,10 @@
                         {% endfor %}
                     </tbody>
                 </table>
+            </div>
+            <div class="col-6">
+                <h5>Chosen date</h5>
+                <p class="js-chosen-meeting-date">date choisis ...</p>
             </div>
         </div>
         <div class="js-meeting-date-wrapper">

@@ -60,11 +60,13 @@ class AdminGuestController extends AbstractController
             if ($user) {
                 $already_invited = $meetingGuestRepository->findAlreadyInWithAccount($user->getId(), $id_meeting);
                 if ($already_invited) {
-                    $html = "Already invited";
 
-                    return new Response($html, 400);
+                    return new Response("Already invited", 400);
                 } else {
+                    if ($user === $meeting->getUser()) {
 
+                        return new Response("Vous ne pouvez pas vous invité a la reunion", 400);
+                    }
                     // Create meeting guest
                     $meeting_guest = new MeetingGuest();
                     $entityManager->persist($meeting_guest);
