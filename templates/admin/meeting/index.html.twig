@@ -20,7 +20,11 @@
                 <tr>
                     <td>{{ meeting.title }}</td>
                     <td>
-                        <a href="{{ path('admin.meeting.edit', {id: meeting.id}) }}" class="btn btn-secondary">Editez</a>
+                        {% if meeting.chosenDate %}
+                            <a href="{{ path('meeting.show', {id: meeting.id, slug: meeting.slug}) }}" class="btn btn-secondary">View</a>
+                        {% else %}
+                            <a href="{{ path('admin.meeting.edit', {id: meeting.id}) }}" class="btn btn-secondary">Editez</a>
+                        {% endif %}
                         <form method="post" action="{{ path('admin.meeting.delete', {id: meeting.id}) }}" style="display: inline-block" onsubmit="return confirm('Etes-vous sure de vouloir supprimer cette reunion ?')">
                             <input type="hidden" name="_method" value="DELETE">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ meeting.id)  }}">

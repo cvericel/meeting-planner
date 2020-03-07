@@ -2,6 +2,9 @@
 {% block title meeting.title%}
 {% block body %}
     <div class="container" style="margin-top: 4cm">
+        {% if meeting.chosenDate %}
+            <h1 class="meeting-h1">Meeting start the <strong>{{ meeting.chosenDate.day|date('F jS') }}</strong> at <strong>{{ meeting.chosenDate.startAt|date('H:i') }}</strong> and finish at <strong>{{ meeting.chosenDate.endAt|date('H:i') }}</strong></h1>
+        {% endif %}
         <div class="row">
             <div class="offset-1 col-10 offset-sm-1 col-sm-10 col-md-10 offset-md-1 col-lg-10 offset-lg-1 col-xl-4 offset-xl-0">
                 <div class="pl-md-5">
@@ -24,19 +27,23 @@
             </div>
             <div class="offset-1 col-10 offset-sm-1 col-sm-10 col-md-10 offset-md-1 col-lg-10 offset-lg-1 col-xl-8 offset-xl-0">
                 <div class="jumbotron p-3 p-md-5 meeting-date-info">
-                    <h1 class="title">{{ meeting.title }}</h1>
+                    <h2 class="title">{{ meeting.title }}</h2>
                     <p class="lead my-3 text-black"><span class="pl-1 pr-3"><i class="fa-info fa"> </i></span>{{ meeting.description }}</p>
                     <p class="lead mb-0 text-black"><span class="pr-2"><i class="fa-calendar fa"> </i></span>Launch the {{ meeting.createdAt|date('F j, Y \\a\\t g:i a') }}</p>
                 </div>
             </div>
         </div>
-        <div class="owl-carousel mt-3" id="js-meeting-date-choice-wrapper">
-            {% for date in meetingDate %}
-                <div class="item">
-                    {{ include('meeting/__meeting_date_card.html.twig') }}
-                </div>
-            {% endfor %}
-        </div>
+        {% if meeting.chosenDate %}
+            <p class="text-black">The meeting will start soon !</p>
+        {% else %}
+            <div class="owl-carousel mt-3" id="js-meeting-date-choice-wrapper">
+                {% for date in meetingDate %}
+                    <div class="item">
+                        {{ include('meeting/__meeting_date_card.html.twig') }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>
 
 {% endblock %}

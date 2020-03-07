@@ -190,31 +190,34 @@
                         url: url,
                         method: "POST"
                     }).then((data) => {
-                        let $resultBlock = $('.js-chosen-meeting-date');
-                        $resultBlock.append(data);
+                        // update page
+                        $.ajax({
+                            url: "/meetings"
+                        }).then((data) => {
+                            let timerInterval;
 
-                        //print success message for user
-                        let timerInterval;
-                        Swal.fire({
-                            title: 'Meeting date choose !',
-                            icon: 'success',
-                            html: 'People in meeting will receive confirmation email.',
-                            timer: 3000,
-                            timerProgressBar: true,
-                            onBeforeOpen: () => {
-                                timerInterval = setInterval(() => {
-                                    const content = Swal.getContent();
-                                    if (content) {
-                                        const b = content.querySelector('b');
-                                        if (b) {
-                                            b.textContent = Swal.getTimerLeft();
+                            Swal.fire({
+                                title: 'Meeting date choose !',
+                                icon: 'success',
+                                html: 'People in meeting will receive confirmation email.',
+                                timer: 3000,
+                                timerProgressBar: true,
+                                onBeforeOpen: () => {
+                                    timerInterval = setInterval(() => {
+                                        const content = Swal.getContent();
+                                        if (content) {
+                                            const b = content.querySelector('b');
+                                            if (b) {
+                                                b.textContent = Swal.getTimerLeft();
+                                            }
                                         }
-                                    }
-                                }, 100)
-                            },
-                            onClose: () => {
-                                clearInterval(timerInterval);
-                            }
+                                    }, 100)
+                                },
+                                onClose: () => {
+                                    clearInterval(timerInterval);
+                                    window.location.replace("/admin")
+                                }
+                            });
                         });
                     });
                 }

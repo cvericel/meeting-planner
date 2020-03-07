@@ -80,6 +80,14 @@
   }
 }
 
+.meeting-h1 {
+  font-size: 30pt;
+  margin-bottom: 2cm;
+  @media only screen and (max-width: 600px) {
+    font-size: 18pt;
+  }
+}
+
 .meeting-date-info {
   .title {
     font-size: 30pt;
