@@ -68,6 +68,21 @@ class User implements UserInterface, \Serializable
      */
     private $guestWithAccounts;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="string", length=70, nullable=true)
+     */
+    private $facebook;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $twitter;
+
     public function __construct()
     {
         $this->meetings = new ArrayCollection();
@@ -279,5 +294,41 @@ class User implements UserInterface, \Serializable
     public function setSubscribeToNewsletter(bool $subscribeToNewsletter)
     {
         $this->subscribeToNewsletter = $subscribeToNewsletter;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getFacebook(): ?string
+    {
+        return $this->facebook;
+    }
+
+    public function setFacebook(?string $facebook): self
+    {
+        $this->facebook = $facebook;
+
+        return $this;
+    }
+
+    public function getTwitter(): ?string
+    {
+        return $this->twitter;
+    }
+
+    public function setTwitter(?string $twitter): self
+    {
+        $this->twitter = $twitter;
+
+        return $this;
     }
 }

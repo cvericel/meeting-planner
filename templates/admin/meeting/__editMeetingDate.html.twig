@@ -1,0 +1,56 @@
+<div class="jumbotron row">
+    <div class="js-meeting-guest col-12">
+        <form action="{{ path('admin.meeting_guest.add', {id_meeting: meeting.id}) }}" method="post" class="js-add-meeting-guest">
+            <div class="input-group mb-3 js-add-people-text">
+                <input type="text"
+                       name="q"
+                       class="form-control"
+                       placeholder="Invitez d'autre personne..."
+                >
+                <div class="input-group-append">
+                    <button type="submit"
+                            class="btn btn-success">
+                        <span class="fa fa-plus"> </span>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <table class="table table-stripped">
+            <thead class="thead-light">
+            <tr>
+                <th colspan="4" class="text-right">Number of guest:
+                    <span class="js-number-of-meeting">
+                                {{ meeting_date_guest_list|length}}
+                            </span>
+                </th>
+            </tr>
+            <tr>
+                <th scope="col">Email</th>
+                <th scope="col">Invited at</th>
+                <th scope="col">Role</th>
+                <th scope="col">&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody id="date_table" class="js-tbody-delete-meeting-guest">
+            {% for guest in meeting_date_guest_list %}
+                {{ include('admin/meeting/__guestRow.html.twig') }}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="js-meeting-date-wrapper">
+    <h2>Add new meeting date !
+        <a href="#" class="btn btn-md btn-success pull-right" data-toggle="modal" data-target="#dataModal">
+            <span class="fa fa-plus"> </span> Add
+        </a>
+    </h2>
+    {{ include('admin/meeting_date/__form.html.twig', {meeting_id: meeting.id}) }}
+    <div class="row js-new-meeting-date-form-wrapper" id="dataModal"></div>
+    <div class="owl-carousel mt-5 js-meeting-date-carousel">
+        {% for date in meeting_date_list %}
+            {{ include('admin//meeting/__meetingDateRow.html.twig') }}
+        {% endfor %}
+    </div>
+</div>
+

@@ -44,11 +44,17 @@ class MeetingDate
      */
     private $availabilities;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $create_at;
+
 
     public function __construct()
     {
         $this->user_id = new ArrayCollection();
         $this->availabilities = new ArrayCollection();
+        $this->create_at = new \DateTime();
     }
 
     public function getId(): ?int
@@ -148,5 +154,17 @@ class MeetingDate
             }
         }
         return $liste;
+    }
+
+    public function getCreateAt(): ?\DateTimeInterface
+    {
+        return $this->create_at;
+    }
+
+    public function setCreateAt(\DateTimeInterface $create_at): self
+    {
+        $this->create_at = $create_at;
+
+        return $this;
     }
 }

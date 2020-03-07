@@ -79,3 +79,85 @@
     }
   }
 }
+
+.meeting-date-info {
+  .title {
+    font-size: 30pt;
+  }
+
+  // For mobile device
+  @media only screen and (max-width: 600px) {
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+
+    .title {
+      font-size: 17pt;
+      font-weight: bold;
+
+    }
+  }
+}
+
+.meeting-date-card-availability {
+  width: 400px;
+  .title{
+    font-size: 20pt;
+    font-weight: bold;
+
+    &__min{
+      font-size: 13pt;
+    }
+  }
+
+  a {
+    margin-top: 10px;
+  }
+
+  // For mobile device
+  @media only screen and (max-width: 600px) {
+    width: 290px;
+    .title {
+      font-size: 16pt;
+    }
+  }
+}
+
+
+.pp-card{
+  width: 300px;
+  margin-bottom: 1cm;
+
+  .username {
+    background: black;
+    color: white;
+    text-align: center;
+    font-size: 20pt;
+    border-radius: 0 0 5px 5px;
+  }
+
+  ul {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    list-style-type: none;
+    padding: 0;
+    padding-left: -8px;
+
+    li {
+      display: block;
+      float: left;
+
+      a {
+        padding-left: 8px;
+      }
+    }
+  }
+
+  // For mobile device
+  @media only screen and (max-width: 600px) {
+    width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

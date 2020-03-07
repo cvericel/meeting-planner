@@ -1,22 +1,18 @@
-
-
-
-<div class="card card  text-center">
+<div class="card text-center meeting-date-card-availability">
     <div class="card-header bg-info">
-        <h2 class="card-title">The {{ date.day|date("j F Y") }}</h2>
+        <h2 class="title">The {{ date.day|date("j F Y") }}</h2>
     </div>
     <div class="card-body">
         <div class="row">
             <div class="col-4 offset-2 border-right border-danger">
-                <h5 class="card-title">Start at</h5>
+                <h5 class="title__min">Start at</h5>
                 <p>{{ date.startAt|date('H:i') }}</p>
             </div>
             <div class="col-4">
-                <h5 class="card-title">End at</h5>
+                <h5 class="title__min">End at</h5>
                 <p>{{ date.endAt|date('H:i') }}</p>
             </div>
         </div>
-        <p class="card-text">It's a broader card with text below as a natural lead-in to extra content. This content is a little longer.</p>
         <div class="js-availability-wrapper">
             {% if guest.guestWithAccount %}
                 {% if availability is defined %}
@@ -69,7 +65,7 @@
             {% endif %}
         </div>
     </div>
-    <div class="card-footer text-muted bg-transparent">
-        2 days ago
+    <div class="card-footer text-black bg-transparent">
+        <p>{{ date.createAt|date('d-m-Y \\a\\t H:i') }} ago</p>
     </div>
 </div>
