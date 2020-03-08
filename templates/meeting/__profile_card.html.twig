@@ -1,0 +1,15 @@
+<div class="col-md-6 px-0 offset-md-3 offset-xl-0">
+    <div class="card pp-card">
+        <img src="{{ uploaded_asset(app.user.imagePath) | imagine_filter('square150') }}" alt="" width="100%"/>
+        <h5 class="username">{{ meeting.user.username }}</h5>
+        <p class="pl-2">{{ meeting.user.description }}</p>
+        <ul>
+            <li>
+                <a href="https://twitter.com/{{ meeting.user.twitter }}" class="text-black"><i class="fa fa-twitter fa-2x"> </i></a>
+            </li>
+            <li>
+                <a href="#" class="text-black"><i class="fa fa-facebook fa-2x"> </i></a>
+            </li>
+        </ul>
+    </div>
+</div>

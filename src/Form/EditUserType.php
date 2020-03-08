@@ -5,9 +5,11 @@ namespace App\Form;
 
 
 use App\Entity\User;
+use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Image;
@@ -20,6 +22,10 @@ class EditUserType extends AbstractType
         $isEdit = $user && $user->getid();
 
         $builder
+            ->add('description', TextareaType::class,
+                [
+                    'required' => false,
+                ])
             ->add('imageFile', FileType::class, [
                 'mapped' => false,
                 'required' => false,
@@ -29,7 +35,7 @@ class EditUserType extends AbstractType
                     ])
                 ]
             ])
-            ->add('button', SubmitType::class)
+            ->add('Update', SubmitType::class)
         ;
     }
 

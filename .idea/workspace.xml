@@ -2,14 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4332e9a6-bdb1-4750-abda-788472085b76" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/templates/meeting/__profile_card.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/app.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/MeetingDate.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/MeetingDate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/admin/meeting/__editMeetingDate.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/meeting/__editMeetingDate.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/admin/meeting/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/meeting/edit.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/admin/meeting/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/meeting/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/event/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/event/show.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/meeting/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/meeting/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/AdminUserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/AdminUserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/EditUserType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/EditUserType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin/user/__form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/user/__form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin/user/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/user/edit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/meeting/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/meeting/show.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -311,7 +311,7 @@
       <workItem from="1582810362206" duration="8574000" />
       <workItem from="1582921449672" duration="8773000" />
       <workItem from="1583230454363" duration="737000" />
-      <workItem from="1583586813252" duration="9843000" />
+      <workItem from="1583586813252" duration="12861000" />
     </task>
     <servers />
   </component>

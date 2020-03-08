@@ -42,7 +42,7 @@ class AdminUserController extends AbstractController
     }
 
     /**
-     * @Route("/admin/Mon-compte/{slug}", name="admin.user.show", requirements={"slug": "[a-z0-9-]*"})
+     * @Route("/admin/myaccount/{slug}", name="admin.user.show", requirements={"slug": "[a-z0-9-]*"})
      * @param Request $request
      * @param UploaderHelper $uploaderHelper
      * @return Response
@@ -65,12 +65,17 @@ class AdminUserController extends AbstractController
                 $user->setImageFilename($newFilename);
             }
 
+            //if description update user
+            $description = $form['description']->getData();
+            if($description) $user->setDescription($description);
+
             $this->entityManager->persist($user);
             $this->getDoctrine()->getManager()->flush();
         }
 
         return $this->render('admin/user/edit.html.twig', [
             'user' => $user,
+            'current_menu' => 'myaccount',
             'form' => $form->createView()
         ]);
     }

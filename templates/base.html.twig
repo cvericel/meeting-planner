@@ -86,6 +86,11 @@
                                                 <li class="{% if current_menu is defined and current_menu == 'admin' %}active underline{% else %}item-menu{% endif %}">
                                                     <a href="{{ path('admin.meeting.index') }}">My meetings</a>
                                                 </li>
+                                                {% if app.user %}
+                                                    <li class="{% if current_menu is defined and current_menu == 'myaccount' %}active underline{% else %}item-menu{% endif %}">
+                                                        <a href="{{ path('admin.user.show', {slug: app.user.slug}) }}">My account</a>
+                                                    </li>
+                                                {% endif %}
                                                 <li class="{% if current_menu is defined and current_menu == 'login' %}active underline{% else %}item-menu{% endif %}">
                                                     {% if app.user %}
                                                         <a href="{{ path('logout') }}">Log out</a>

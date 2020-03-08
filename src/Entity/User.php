@@ -70,6 +70,7 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\Length(max="200")
      */
     private $description;
 
