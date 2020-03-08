@@ -53,40 +53,25 @@
                                                 <li class="{% if current_menu is defined and current_menu == 'home' %}active underline{% else %}item-menu{% endif %}">
                                                     <a href="{{ path('home') }}">Home</a>
                                                 </li>
-                                                <li class="{% if current_menu is defined and current_menu == '???' %}active underline{% else %}item-menu{% endif %}">
-                                                    <a href="">Coming</a>
-                                                </li>
-                                                <li class="has-children">
-                                                    <a href="">Coming</a>
-                                                    <ul class="dropdown arrow-top">
-                                                        <li><a href="">Coming</a></li>
-                                                        <li><a href="">Coming</a></li>
-                                                        <li><a href="">Coming</a></li>
-                                                        <li class="has-children">
-                                                            <a href="">Coming</a>
-                                                            <ul class="dropdown">
-                                                                <li><a href="">Coming</a></li>
-                                                                <li><a href="">Coming</a></li>
-                                                                <li><a href="">Coming</a></li>
-                                                                <li><a href="">Coming</a></li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="{% if current_menu is defined and current_menu == 'events' %}active underline{% else %}item-menu{% endif %}">
-                                                <a href="{{ path('meeting.view') }}">Events</a>
-                                                    <span class="notification" style="padding: 0">
-                                                        {% if app.user %}
-                                                                {{ app.user.guestWithAccounts.count }}
-                                                        {% else %}
-                                                            0
-                                                        {%  endif %}
-                                                    </span>
-                                                </li>
-                                                <li class="{% if current_menu is defined and current_menu == 'admin' %}active underline{% else %}item-menu{% endif %}">
-                                                    <a href="{{ path('admin.meeting.index') }}">My meetings</a>
-                                                </li>
                                                 {% if app.user %}
+                                                    <li class="{% if current_menu is defined and current_menu == 'events' %}active underline{% else %}item-menu{% endif %} has-children">
+                                                        <a href="{{ path('meeting.view') }}">Events</a>
+                                                        <span class="notification" style="padding: 0">
+                                                            {% if app.user %}
+                                                                {{ app.user.guestWithAccounts.count }}
+                                                            {% else %}
+                                                                0
+                                                            {%  endif %}
+                                                        </span>
+                                                        <ul class="dropdown arrow-top">
+                                                            {% for guest in app.user.guestWithAccounts %}
+                                                                <li><a href="">{{guest.meetingGuest.meeting.title}}</a></li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </li>
+                                                    <li class="{% if current_menu is defined and current_menu == 'admin' %}active underline{% else %}item-menu{% endif %}">
+                                                        <a href="{{ path('admin.meeting.index') }}">My meetings</a>
+                                                    </li>
                                                     <li class="{% if current_menu is defined and current_menu == 'myaccount' %}active underline{% else %}item-menu{% endif %}">
                                                         <a href="{{ path('admin.user.show', {slug: app.user.slug}) }}">My account</a>
                                                     </li>
