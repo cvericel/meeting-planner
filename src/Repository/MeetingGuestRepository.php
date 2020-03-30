@@ -110,6 +110,16 @@ class MeetingGuestRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function findOneGuest($guestId)
+    {
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.id = :guestId')
+            ->setParameter('guestId', $guestId)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
     // /**
     //  * @return MeetingGuest[] Returns an array of MeetingGuest objects
     //  */

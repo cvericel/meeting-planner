@@ -10,6 +10,7 @@ use App\Entity\MeetingGuest;
 use App\Repository\MeetingGuestRepository;
 use App\Repository\MeetingRepository;
 use App\Repository\UserRepository;
+use App\Service\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,7 +51,7 @@ class AdminGuestController extends AbstractController
     public function addGuest (Request $request, UserRepository $userRepository, $id_meeting,
                               EntityManagerInterface $entityManager,
                               MeetingRepository $meetingRepository,
-                                MeetingGuestRepository $meetingGuestRepository): Response
+                                MeetingGuestRepository $meetingGuestRepository, Mailer $mailer): Response
     {
         $meeting = $meetingRepository->find($id_meeting);
         $email = $request->get('q');
@@ -78,6 +79,7 @@ class AdminGuestController extends AbstractController
                     $meeting_guest->setGuestWithAccount($guestWithAccount);
                     $entityManager->flush();
 
+                    $mailer->sendMeetingGuestInvite($meeting_guest, $meeting);
 
                     return $this->render('admin/meeting/__guestRow.html.twig', [
                         'meeting' => $meeting,
@@ -101,6 +103,8 @@ class AdminGuestController extends AbstractController
                     $guestWithoutAccount = new GuestWithoutAccount($meeting_guest, $email);
                     $meeting_guest->setGuestWithoutAccount($guestWithoutAccount);
                     $entityManager->flush();
+
+                    $mailer->sendMeetingGuestInvite($meeting_guest, $meeting);
 
                     return $this->render('admin/meeting/__guestRow.html.twig', [
                         'meeting' => $meeting,

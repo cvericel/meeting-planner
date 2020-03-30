@@ -35,7 +35,7 @@ class MeetingDate
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Meeting", inversedBy="dates")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $meeting;
 

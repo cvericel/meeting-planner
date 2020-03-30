@@ -49,6 +49,7 @@ class AdminMeetingDateController extends AbstractController
     public function create(Request $request, $id_meeting, MeetingRepository $meetingRepository): Response
     {
         $meeting = $meetingRepository->find($id_meeting);
+        $count = $meeting->getDates()->count();
 
         if ($meeting->getUser() === $meeting->getUser()) {
             $meeting_date = new MeetingDate();
@@ -60,6 +61,8 @@ class AdminMeetingDateController extends AbstractController
                 $meeting = $meetingRepository->find($id_meeting);
                 $meeting_date->setMeeting($meeting);
                 $this->entityManager->flush();
+
+                if ($count === 0) return new Response("", 400);
 
                 return $this->render('admin/meeting/__meetingDateRow.html.twig', [
                     'date' => $meeting_date,
@@ -89,9 +92,9 @@ class AdminMeetingDateController extends AbstractController
         $authUser = $this->security->getUser()->getId();
         $user = $meetingDate->getMeeting()->getUser()->getId();
         if ($user == $authUser) {
-            //$entityManager = $this->getDoctrine()->getManager();
-            //$entityManager->remove($meetingDate);
-            //$entityManager->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($meetingDate);
+            $entityManager->flush();
 
             return new Response(null, 204);
         }

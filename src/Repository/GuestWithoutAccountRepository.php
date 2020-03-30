@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\GuestWithoutAccount;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\Collection;
 
 /**
  * @method GuestWithoutAccount|null find($id, $lockMode = null, $lockVersion = null)
@@ -36,6 +37,15 @@ class GuestWithoutAccountRepository extends ServiceEntityRepository
     }
     */
 
+    public function findAllByEmail($email)
+    {
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.email = :email')
+            ->setParameter('email', $email)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     /*
     public function findOneBySomeField($value): ?GuestWithoutAccount
     {

@@ -33,6 +33,7 @@
                 data: $guestForm.serialize()
             }).then(function (data) {
                 $tbody.prepend(data);
+                $(".js-add-meeting-guest-input").val("");
             }).catch(function (jqXHR) {
                 //On supprime la span s'il y'a des une erreur
                 if ($guestForm.hasClass("has-error")) {

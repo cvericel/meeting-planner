@@ -39,11 +39,12 @@ class AdminMeetingController extends AbstractController
 
     /**
      * @Route("/admin", name="admin.meeting.index")
+     * @param Security $security
      * @return Response
      */
-    public function index(): Response
+    public function index(Security $security): Response
     {
-        $meetings = $this->repository->findAll();
+        $meetings = $this->repository->findAllById($security->getUser()->getId());
         return $this->render('admin/meeting/index.html.twig', [
             'meetings' => $meetings,
             'current_menu' => 'admin'
@@ -66,7 +67,6 @@ class AdminMeetingController extends AbstractController
             $meeting->setUser($security->getUser());
             $this->entityManager->persist($meeting);
             $this->entityManager->flush();
-            $this->addFlash('success', 'Bien crée avec succès');
 
             return $this->redirectToRoute('admin.meeting.index');
         }
@@ -103,7 +103,6 @@ class AdminMeetingController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->flush();
-            $this->addFlash('success', 'Bien modifié avec succès');
             return $this->redirectToRoute('admin.meeting.index');
         }
 
@@ -130,8 +129,8 @@ class AdminMeetingController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $meeting->getId(), $request->get('_token'))) {
             $this->entityManager->remove($meeting);
             $this->entityManager->flush();
-            $this->addFlash('success', 'Bien supprimé avec succès');
         }
+
         return $this->redirectToRoute('admin.meeting.index');
 
     }

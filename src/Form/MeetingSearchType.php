@@ -18,7 +18,7 @@ class MeetingSearchType extends AbstractType
                 'required' => false,
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Email de l\'invité'
+                    'placeholder' => 'guest email'
                 ]
             ]);
     }

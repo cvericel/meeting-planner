@@ -21,7 +21,7 @@ class MeetingGuest
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Meeting", inversedBy="meetingGuests")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $meeting;
 
@@ -52,7 +52,7 @@ class MeetingGuest
     private $guestWithAccount;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\GuestWithoutAccount", mappedBy="meeting_guest", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\GuestWithoutAccount", mappedBy="meeting_guest", orphanRemoval=true)
      */
     private $guestWithoutAccount;
 
@@ -170,9 +170,13 @@ class MeetingGuest
         return $this->guestWithoutAccount;
     }
 
-    public function setGuestWithoutAccount(GuestWithoutAccount $guestWithoutAccount): self
+    public function setGuestWithoutAccount($guestWithoutAccount): self
     {
         $this->guestWithoutAccount = $guestWithoutAccount;
+
+        if ($guestWithoutAccount == null) {
+            return $this;
+        }
 
         // set the owning side of the relation if necessary
         if ($guestWithoutAccount->getMeetingGuest() !== $this) {
@@ -204,5 +208,10 @@ class MeetingGuest
             return $this->getGuestWithAccount()->getUser()->getUsername();
         }
         return $this->getGuestWithoutAccount()->getEmail();
+    }
+
+    public function removeGuestWithoutAccount(): void
+    {
+        $this->setGuestWithoutAccount(null);
     }
 }

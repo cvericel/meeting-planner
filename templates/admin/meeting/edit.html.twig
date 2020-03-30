@@ -22,13 +22,13 @@
         $carousel = $('.owl-carousel');
 
         $(function () {
+            let $meetingGuestWrapper = $('.js-meeting-guest');
+            new MeetingGuest($meetingGuestWrapper);
+
             let $meeting_wrapper = $('.js-meeting-date-wrapper');
             let $datePicker = $('.js-datetime-picker');
             let $timePicker = $('.js-time-picker');
             new MeetingDate($meeting_wrapper, $datePicker, $timePicker, $carousel);
-
-            let $meetingGuestWrapper = $('.js-meeting-guest');
-            new MeetingGuest($meetingGuestWrapper);
         });
     </script>
 {% endblock %}

@@ -23,7 +23,7 @@ class GuestWithoutAccount
     private $email;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\MeetingGuest", inversedBy="guestWithoutAccount", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\MeetingGuest", inversedBy="guestWithoutAccount")
      * @ORM\JoinColumn(nullable=false)
      */
     private $meeting_guest;

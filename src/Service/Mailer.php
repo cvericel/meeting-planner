@@ -57,4 +57,16 @@ class Mailer
         $this->mailer->send($email);
     }
 
+    public function sendMeetingGuestInvite(MeetingGuest $guest, Meeting $meeting)
+    {
+        $email = (new TemplatedEmail())
+            ->to(new Address($guest->getEmail(), $guest->getUsername()))
+            ->subject("A date has been fixed !")
+            ->htmlTemplate('email/meeting_invite.html.twig')
+            ->context([
+                'meeting' => $meeting
+            ]);
+        $this->mailer->send($email);
+    }
+
 }

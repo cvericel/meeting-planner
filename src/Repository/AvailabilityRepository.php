@@ -50,7 +50,15 @@ class AvailabilityRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-
+    public function findAllAvailabilityForOneGuest($id_guest)
+    {
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.meeting_guest = :id_guest')
+            ->setParameter('id_guest', $id_guest)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     // /**
     //  * @return Availability[] Returns an array of Availability objects
     //  */

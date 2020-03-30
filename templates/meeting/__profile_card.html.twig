@@ -1,6 +1,6 @@
 <div class="col-md-6 px-0 offset-md-3 offset-xl-0">
     <div class="card pp-card">
-        <img src="{{ uploaded_asset(app.user.imagePath) | imagine_filter('square150') }}" alt="" width="100%"/>
+        <img src="{{ uploaded_asset(meeting.user.imagePath) | imagine_filter('square150') }}" alt="" width="100%"/>
         <h5 class="username">{{ meeting.user.username }}</h5>
         <p class="pl-2">{{ meeting.user.description }}</p>
         <ul>

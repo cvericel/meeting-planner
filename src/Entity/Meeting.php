@@ -39,18 +39,18 @@ class Meeting
     private $created_at;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MeetingDate", mappedBy="meeting")
+     * @ORM\OneToMany(targetEntity="App\Entity\MeetingDate", mappedBy="meeting", orphanRemoval=true, cascade={"remove"})
      */
     private $dates;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="meetings")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MeetingGuest", mappedBy="meeting", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\MeetingGuest", mappedBy="meeting", orphanRemoval=true, cascade={"remove"})
      */
     private $meetingGuests;
 

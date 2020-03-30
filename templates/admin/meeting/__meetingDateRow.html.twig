@@ -35,6 +35,6 @@
         </div>
     </div>
     <div class="card-footer text-center">
-        <a href="#" data-url="{{ path('admin.meeting_date.view_availability', {id_meeting: date.meeting.id, id: date.id}) }}" class="card-text js-meeting-date-view-availability">{{ date.availabilities| length }} people disposable</a>
+        <a href="#" data-url="{{ path('admin.meeting_date.view_availability', {id_meeting: date.meeting.id, id: date.id}) }}" class="card-text js-meeting-date-view-availability">{{ date.disposable| length }} people disposable</a>
     </div>
 </div>
