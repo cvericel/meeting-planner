@@ -3,19 +3,32 @@
     <spacer size="20"> </spacer>
     <row>
         <columns>
-            <p>{{ email.toName }} La reunion de {{ date.meeting.user.username }} a choisis une date</p>
+            <p>{{ email.toName }} {{ date.meeting.user.username }} has chosen a date ! For {{ date.meeting.title }}.</p>
         </columns>
     </row>
     <row>
         <columns>
-            <p>La date choisis est {{ date.day|date('d/m/Y') }} à {{ date.startAt|date('H:i') }} jusqu'a {{ date.endAt|date('H:i') }}</p>
+            <p>The chosen date start the {{ date.day|date('d/m/Y') }} at {{ date.startAt|date('H:i') }} until {{ date.endAt|date('H:i') }}</p>
         </columns>
     </row>
+    {% if guest.guestWithoutAccount %}
+        <row>
+            <columns>
+                <p>You don't have account on meeting planner ?</p>
+                <p>No problem ! Go to the meeting with this url: <a href="localhost:8000{{ path('meeting.show', {id: date.meeting.id, slug: date.meeting.slug}) }}?t={{ guest.guestWithoutAccount.token }}">join us</a> </p>
+            </columns>
+        </row>
+        <row>
+            <columns>
+                <p>Create an account for better experience !</p>
+            </columns>
+        </row>
+    {% endif %}
     <row>
         <columns>
             <center>
                 <spacer size="20"> </spacer>
-                <button href="{{ url('home') }}">Connecte toi sur le site pour plus d'information</button>
+                <button href="{{ url('home') }}">Go on the website for more information.</button>
                 <spacer size="20"> </spacer>
             </center>
         </columns>

@@ -40,7 +40,8 @@ class Mailer
             ->subject("Meeting is coming !")
             ->htmlTemplate('email/weekly-report.html.twig')
             ->context([
-                'meeting' => $meeting
+                'meeting' => $meeting,
+                'guest' => $guest
             ]);
         $this->mailer->send($email);
     }
@@ -52,7 +53,8 @@ class Mailer
             ->subject("A date has been fixed !")
             ->htmlTemplate('email/chosen_meeting_date.html.twig')
             ->context([
-                'date' => $meetingDate
+                'date' => $meetingDate,
+                'guest' => $guest
             ]);
         $this->mailer->send($email);
     }
@@ -64,7 +66,8 @@ class Mailer
             ->subject("A date has been fixed !")
             ->htmlTemplate('email/meeting_invite.html.twig')
             ->context([
-                'meeting' => $meeting
+                'meeting' => $meeting,
+                'guest' => $guest
             ]);
         $this->mailer->send($email);
     }

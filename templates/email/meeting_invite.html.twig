@@ -1,1 +1,36 @@
-<h1>{{ meeting.user.username }} invite you to a meeting !</h1>
+{% extends 'email/email_base.html.twig' %}
+{% block content %}
+    <spacer size="20"> </spacer>
+    <row>
+        <columns>
+            <p>Hello {{ email.toName }} !</p>
+        </columns>
+    </row>
+    <row>
+        <columns>
+            <p>{{ meeting.user.username }} invited you to his meeting.</p>
+        </columns>
+    </row>
+    {% if guest.guestWithoutAccount %}
+        <row>
+            <columns>
+                <p>You don't have account on meeting planner ?</p>
+                <p>No problem ! Go to the meeting with this url: <a href="localhost:8000{{ path('meeting.show', {id: meeting.id, slug: meeting.slug}) }}?t={{ guest.guestWithoutAccount.token }}">join us</a> </p>
+            </columns>
+        </row>
+        <row>
+            <columns>
+                <p>Create an account for better experience !</p>
+            </columns>
+        </row>
+    {% endif %}
+    <row>
+        <columns>
+            <center>
+                <spacer size="20"> </spacer>
+                <button href="{{ url('home') }}">Go on the website for more information.</button>
+                <spacer size="20"> </spacer>
+            </center>
+        </columns>
+    </row>
+{% endblock %}

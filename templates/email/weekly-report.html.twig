@@ -3,19 +3,19 @@
     <spacer size="20"> </spacer>
     <row>
         <columns>
-            <p>{{ email.toName }}, une reunion dans à laquelle vous êtes invité va bientot demarer !</p>
+            <p>{{ email.toName }}, a meeting will start soon !</p>
         </columns>
     </row>
     <row>
         <columns>
-            <p>Reunions a venir de {{ meeting.user.email }} le {{ meeting.chosenDate.day|date('d/m/Y') }} à {{ meeting.chosenDate.startAt|date('H:i') }} jusqu'a {{ meeting.chosenDate.endAt|date('H:i') }}</p>
+            <p>{{ meeting.user.email }} meeting's start at {{ meeting.chosenDate.day|date('d/m/Y') }} at {{ meeting.chosenDate.startAt|date('H:i') }} until {{ meeting.chosenDate.endAt|date('H:i') }}</p>
         </columns>
     </row>
     <row>
         <columns>
             <center>
                 <spacer size="20"> </spacer>
-                <button href="{{ url('home') }}">Connecte toi sur le site pour plus d'information</button>
+                <button href="{{ url('home') }}">Go on the website for a better experience !</button>
                 <spacer size="20"> </spacer>
             </center>
         </columns>

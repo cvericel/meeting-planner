@@ -52,7 +52,7 @@ class MeetingGuest
     private $guestWithAccount;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\GuestWithoutAccount", mappedBy="meeting_guest", orphanRemoval=true)
+     * @ORM\OneToOne(targetEntity="App\Entity\GuestWithoutAccount", mappedBy="meeting_guest", orphanRemoval=true, cascade={"persist"})
      */
     private $guestWithoutAccount;
 
