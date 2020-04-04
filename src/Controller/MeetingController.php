@@ -77,16 +77,28 @@ class MeetingController extends AbstractController
         }
 
         if($security->getUser()) {
-            $guest = $meetingGuestRepository->findUserInMeetingGuest($meeting, $security->getUser()->getId());
-            $availability = $availabilityRepository->findAllAvailabilityInMeeting($guest->getId(), $meeting);
+            if ($security->getUser() === $meeting->getUser())
+            {
 
-            return $this->render('meeting/show.html.twig', [
-                'meeting' => $meeting,
-                'meetingDate' => $meetingDate,
-                'current_menu' => 'meeting',
-                'availability' => $availability,
-                'guest' => $guest
-            ]);
+                return $this->render('admin/meeting/show.html.twig', [
+                    'meeting' => $meeting,
+                    'meetingDate' => $meetingDate,
+                    'current_menu' => 'admin',
+                ]);
+
+            } else {
+
+                $guest = $meetingGuestRepository->findUserInMeetingGuest($meeting, $security->getUser()->getId());
+                $availability = $availabilityRepository->findAllAvailabilityInMeeting($guest->getId(), $meeting);
+
+                return $this->render('meeting/show.html.twig', [
+                    'meeting' => $meeting,
+                    'meetingDate' => $meetingDate,
+                    'current_menu' => 'admin',
+                    'availability' => $availability,
+                    'guest' => $guest
+                ]);
+            }
         } else {
             $token = $request->get('t');
             $guest = $meetingGuestRepository->findInMeetingGuestWithToken($meeting, $token);
@@ -95,7 +107,7 @@ class MeetingController extends AbstractController
                 return $this->render('meeting/show.html.twig', [
                     'meeting' => $meeting,
                     'meetingDate' => $meetingDate,
-                    'current_menu' => 'meeting',
+                    'current_menu' => 'admin',
                     'availability' => $availability,
                     'guest' => $guest
                 ]);

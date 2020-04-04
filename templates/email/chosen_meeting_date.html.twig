@@ -15,7 +15,9 @@
         <row>
             <columns>
                 <p>You don't have account on meeting planner ?</p>
-                <p>No problem ! Go to the meeting with this url: <a href="localhost:8000{{ path('meeting.show', {id: date.meeting.id, slug: date.meeting.slug}) }}?t={{ guest.guestWithoutAccount.token }}">join us</a> </p>
+                <p>No problem ! Go to the meeting with this url:
+                    <button href="{{ url('meeting.show', {id: meeting.id, slug: meeting.slug, t: guest.guestWithoutAccount.token}) }}">Go on the meeting page.</button>
+                </p>
             </columns>
         </row>
         <row>

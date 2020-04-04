@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\MeetingDate;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -53,6 +52,7 @@ class MeetingDateRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('m')
             ->andWhere('m.meeting = :id')
             ->setParameter('id', $meetingId)
+            ->orderBy('m.day', 'ASC')
             ->getQuery()
             ->getResult()
         ;

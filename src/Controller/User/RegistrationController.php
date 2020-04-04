@@ -69,7 +69,6 @@ class RegistrationController extends AbstractController
                 }
             }
 
-            dd();
             $mailer->sendWelcomeMessage($user);
 
             return $this->redirectToRoute('login');

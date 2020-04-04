@@ -1,0 +1,20 @@
+Démo
+Création d'un compte : tdarcour, tdarcour@mail.fr
+Modifier compte: pp sur telechargement
+
+DESCR ->
+Bonjour, je m'appelle tristan darcourt germain.
+J'ai 21 ans et je suis en licence informatique à l'ucp.
+
+Création d'une reunion :
+TITRE -> Oral projet d'integration
+DESCR -> Présentation oral de notre projet d'integration, meeting-planner.
+
+
+Invitation:
+clementvericel@outlook.fr --> compte creer
+mlemaire@u-cergy.fr --> Compte inviter
+
+creer un compte a mlemaire pour associer son compte avec ses choix
+
+choisir date de reunion

@@ -63,7 +63,7 @@ class Mailer
     {
         $email = (new TemplatedEmail())
             ->to(new Address($guest->getEmail(), $guest->getUsername()))
-            ->subject("A date has been fixed !")
+            ->subject("You have been invited to a new meeting !")
             ->htmlTemplate('email/meeting_invite.html.twig')
             ->context([
                 'meeting' => $meeting,

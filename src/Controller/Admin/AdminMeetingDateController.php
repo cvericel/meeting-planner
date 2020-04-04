@@ -164,7 +164,7 @@ class AdminMeetingDateController extends AbstractController
             if ($meeting->getChosenDate() === null) {
                 $this->entityManager->persist($meeting);
                 $meeting->setChosenDate($meetingDate);
-
+                $this->entityManager->flush();
                 // Envoie du mail au invité de la reunion
                 foreach ($meeting->getMeetingGuests() as $guest)
                 {
